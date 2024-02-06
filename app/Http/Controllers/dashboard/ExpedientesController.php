@@ -63,62 +63,6 @@ class ExpedientesController extends Controller
         $this->invalidIdResponse = response()->json(['result' => 'sin resultado'], 400);
     }
 
-    /**
-     * Listado de todos los expedientes judiciales
-     * @OA\Get (
-     *     path="/api/judiciales",
-     *     tags={"Expedientes"},
-     *     @OA\Response(
-     *         response=200,
-     *         description="Ok",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 type="array",
-     *                 property="rows",
-     *                 @OA\Items(
-     *                     type="object",
-     *                     @OA\Property(
-     *                         property="id",
-     *                         type="number",
-     *                         example="1"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="name",
-     *                         type="string",
-     *                         example="Aderson Felix"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="slug",
-     *                         type="string",
-     *                         example="Jara Lazaro"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="description",
-     *                         type="string",
-     *                         example="Jara Lazaro"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="price",
-     *                         type="decimal",
-     *                         example="Jara Lazaro"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="created_at",
-     *                         type="string",
-     *                         example="2023-02-23T00:09:16.000000Z"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="updated_at",
-     *                         type="string",
-     *                         example="2023-02-23T12:33:45.000000Z"
-     *                     )
-     *                 )
-     *             )
-     *         )
-     *     )
-     * )
-     * */
-
     public function mostrarExpedientes()
     {
         $expedientes = Expedientes::join('clientes', 'expedientes.id_client', '=', 'clientes.id')

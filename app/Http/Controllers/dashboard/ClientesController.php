@@ -15,43 +15,92 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class RegistroClientesController extends Controller
+class ClientesController extends Controller
 {
+
+    /**
+     * Obtener lista de clientes
+     *
+     * @OA\Get(
+     *     path="/api/clientes",
+     *     tags={"Clientes"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de clientes",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="boolean", example=true),
+     *             @OA\Property(property="message", type="string", example="Clientes"),
+     *             @OA\Property(property="clientes", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="type_contact", type="string", example="Empresa"),
+     *                     @OA\Property(property="name", type="string", example=null),
+     *                     @OA\Property(property="last_name", type="string", example=null),
+     *                     @OA\Property(property="dni", type="string", example=null),
+     *                     @OA\Property(property="birthdate", type="string", example=null),
+     *                     @OA\Property(property="company", type="string", example=null),
+     *                     @OA\Property(property="name_company", type="string", example="demo"),
+     *                     @OA\Property(property="ruc", type="string", example="1234568790875746"),
+     *                     @OA\Property(property="email", type="string", example="{'email':'alnuawd@sagssdg.adgs','type_email':'Trabajo','email2':null,'type_email2':'Trabajo'}"),
+     *                     @OA\Property(property="phone", type="string", example="{'phone':'2354325','type_phone':'Trabajo','phone2':null,'type_phone2':'Trabajo'}"),
+     *                     @OA\Property(property="address", type="string", example="{'country':'Perú','departamento':'20','provincia':'152','distrito':'1534','street':'qwetryuio'}"),
+     *                     @OA\Property(property="code_user", type="string", example="Temis-1"),
+     *                     @OA\Property(property="code_company", type="string", example="desarrollo"),
+     *                     @OA\Property(property="created_at", type="string", example=null),
+     *                     @OA\Property(property="updated_at", type="string", example=null)
+     *                 )
+     *             )
+     *         )
+     *     )
+     * )
+     */
+
 
     public function mostrarClientes()
     {
         $clientes = Cliente::where("code_company", Auth::user()->code_company)->get();
-        // CREDENCIALES CREADAS POR EL USUARIO
-        $credencialUsuario = Credenciales::where('code_user', Auth::user()->code_user)->get();
-        // CREDENCIALES COMPARTIDAS CON EL USUARIO
-        $credencialCompartida = Credenciales::where('compartida', 0)->where('code_company', Auth::user()->code_company)->whereRaw('JSON_CONTAINS(metadata, ?)', ['"'. Auth::user()->id .'"'])
-        ->get();
-        // CREDENCIALES COMPARTIDAS CON TODOS LOS USUARIOS
-        $credencialCompartidaAll = Credenciales::where('compartida', 1)->where('code_company', Auth::user()->code_company)->get();
+        // // CREDENCIALES CREADAS POR EL USUARIO
+        // $credencialUsuario = Credenciales::where('code_user', Auth::user()->code_user)->get();
+        // // CREDENCIALES COMPARTIDAS CON EL USUARIO
+        // $credencialCompartida = Credenciales::where('compartida', 0)->where('code_company', Auth::user()->code_company)->whereRaw('JSON_CONTAINS(metadata, ?)', ['"' . Auth::user()->id . '"'])
+        //     ->get();
+        // // CREDENCIALES COMPARTIDAS CON TODOS LOS USUARIOS
+        // $credencialCompartidaAll = Credenciales::where('compartida', 1)->where('code_company', Auth::user()->code_company)->get();
 
-        return view('dashboard.sistema_expedientes.expedientesRegistroClientes', compact('clientes', 'credencialUsuario', 'credencialCompartida', 'credencialCompartidaAll'));
+        return response()->json(
+            [
+                'status' => true,
+                'message' => "Clientes",
+                'clientes' => $clientes,
+                // 'credencialUsuario' => $credencialUsuario,
+                // 'credencialCompartida' => $credencialCompartida,
+                // 'credencialCompartidaAll' => $credencialCompartidaAll,
+            ]
+        );
     }
 
     // DATOS CLIENTE
-    public function datosCliente(){
+    public function datosCliente()
+    {
         $id = $_POST['id'];
-        $datosCliente = Cliente::where('id','=',$id)->get()->first();
+        $datosCliente = Cliente::where('id', '=', $id)->get()->first();
         return response()->json($datosCliente);
-
     }
-    public function datosCliente2(){
+    public function datosCliente2()
+    {
         $id = $_POST['id'];
-        $datosCliente = Cliente::where('id','=',$id)->get()->first();
+        $datosCliente = Cliente::where('id', '=', $id)->get()->first();
         return response()->json($datosCliente);
-
     }
 
     // DELETE
-    public function deleteCliente(){
+    public function deleteCliente()
+    {
         $id = $_POST['id'];
-        $datosCli = Cliente::where('id','=',$id)->get()->first();
+        $datosCli = Cliente::where('id', '=', $id)->get()->first();
         if ($datosCli->type_contact == 'Persona') {
-            $nameInMessage = $datosCli->name .', ' . $datosCli->last_name;
+            $nameInMessage = $datosCli->name . ', ' . $datosCli->last_name;
         }
         if ($datosCli->type_contact == 'Empresa') {
             $nameInMessage = $datosCli->name_company;
@@ -67,7 +116,6 @@ class RegistroClientesController extends Controller
         //     'id_cli' => $id,
         // ]);
         return response()->json("Eliminado");
-
     }
 
     // REGISTRAR
@@ -84,7 +132,7 @@ class RegistroClientesController extends Controller
             $dni = $datosCliente["dni"];
             $birthdate = $datosCliente["birthdate"];
             $company = $datosCliente["company"];
-        }else{
+        } else {
             $nameCompany = $datosCliente["name-company"];
             $ruc = $datosCliente["ruc"];
         }
@@ -114,8 +162,8 @@ class RegistroClientesController extends Controller
         ];
         $nameInMessage = '';
 
-        if($typeClient == 'Persona'){
-            $nameInMessage = $name .', '. $lastName;
+        if ($typeClient == 'Persona') {
+            $nameInMessage = $name . ', ' . $lastName;
             $newData = [
                 'type_contact' => $typeClient,
                 'name' => $name,
@@ -129,7 +177,7 @@ class RegistroClientesController extends Controller
                 'phone' => json_encode($jsonPhone),
                 'address' => json_encode($jsonAddress),
             ];
-        }else{
+        } else {
             $nameInMessage = $nameCompany;
             $newData = [
                 'type_contact' => $typeClient,
@@ -156,7 +204,7 @@ class RegistroClientesController extends Controller
         $alertFecha = request()->input("alert-fecha-limite");
         $alertTitulo = request()->input("alert-titulo");
         $alertDescripcion = request()->input("alert-descripcion");
-        if ($alertActivo == "1"){
+        if ($alertActivo == "1") {
             AlertCliente::insert([
                 'id_client' => $dataId,
                 'fecha_limite' => $alertFecha,
@@ -167,7 +215,7 @@ class RegistroClientesController extends Controller
                 'metadata' => null,
             ]);
         }
-        return redirect()->route('sistema_expedientes.expedientesRegistroClientes')->with('success','¡Cliente registrado correctamente!');
+        return redirect()->route('sistema_expedientes.expedientesRegistroClientes')->with('success', '¡Cliente registrado correctamente!');
     }
 
     // ACTUALIZAR
@@ -205,7 +253,7 @@ class RegistroClientesController extends Controller
         $uCliente = Cliente::find($id);
         $uCliente->type_contact = $typeClient;
         if ($typeClient == 'Persona') {
-            $nameInMessage = $datosCliente["name"] .', '. $datosCliente["last-name"];
+            $nameInMessage = $datosCliente["name"] . ', ' . $datosCliente["last-name"];
             $uCliente->name = $datosCliente["name"];
             $uCliente->last_name = $datosCliente["last-name"];
             $uCliente->dni = $datosCliente["dni"];
@@ -213,7 +261,7 @@ class RegistroClientesController extends Controller
             $uCliente->company = $datosCliente["company"];
             $uCliente->name_company = null;
             $uCliente->ruc = null;
-        }else{
+        } else {
             $nameInMessage = $datosCliente["name-company"];
             $uCliente->name = null;
             $uCliente->last_name = null;
@@ -239,7 +287,6 @@ class RegistroClientesController extends Controller
         // ]);
 
         // notify()->success('Se actualizó nuevo cliente', 'Clientes');
-        return redirect()->route('sistema_expedientes.expedientesRegistroClientes')->with('success','¡Cliente actualizado correctamente!');
+        return redirect()->route('sistema_expedientes.expedientesRegistroClientes')->with('success', '¡Cliente actualizado correctamente!');
     }
-
 }

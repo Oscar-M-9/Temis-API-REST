@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\dashboard\ExpedientesController;
 use App\Http\Controllers\CredencialesSinoeController;
 use App\Http\Controllers\CreditController;
-use App\Http\Controllers\dashboard\RegistroClientesController;
+use App\Http\Controllers\dashboard\ClientesController;
 use App\Http\Controllers\DocumentosPresentadosSinoeController;
 use App\Http\Controllers\EconomicExpensesController;
 use App\Http\Controllers\EconomicExpensesIndecopiController;
@@ -139,15 +139,15 @@ Route::get('storage-link', function () {
 //         //! SISTEMA EXPEDIENTES
 //         // Route::get('expedientes-Home', [ExpedientesController::class, 'mostrarExpedientes'])->name('sistema_expedientes.expedientesHome');
 //         // Route::get('alertas', [AlertasController::class, 'mostrarAlertas'])->name('sistema_expedientes.expedientesAlertas');
-//         Route::get('clientes', [App\Http\Controllers\dashboard\RegistroClientesController::class, 'mostrarClientes'])->name('sistema_expedientes.expedientesRegistroClientes');
+//         Route::get('clientes', [App\Http\Controllers\dashboard\ClientesController::class, 'mostrarClientes'])->name('sistema_expedientes.expedientesRegistroClientes');
 //         Route::get('expedientes-reportes', [ExpReportesController::class, 'mostrarReportes'])->name('sistema_expedientes.expedientesReportes');
 
 //         // ? CLIENTE
-//         Route::post('addCliente', [App\Http\Controllers\dashboard\RegistroClientesController::class, 'addCliente'])->name('sistema_expedientes.addCliente');
-//         Route::post('updateCliente', [App\Http\Controllers\dashboard\RegistroClientesController::class, 'updateCliente'])->name('sistema_expedientes.updateCliente');
-//         Route::post('deleteCliente', [App\Http\Controllers\dashboard\RegistroClientesController::class, 'deleteCliente'])->name('cliente.delete');
-//         Route::post('datos-cliente', [App\Http\Controllers\dashboard\RegistroClientesController::class, 'datosCliente']);
-//         Route::post('datos-cliente2', [App\Http\Controllers\dashboard\RegistroClientesController::class, 'datosCliente2']);
+//         Route::post('addCliente', [App\Http\Controllers\dashboard\ClientesController::class, 'addCliente'])->name('sistema_expedientes.addCliente');
+//         Route::post('updateCliente', [App\Http\Controllers\dashboard\ClientesController::class, 'updateCliente'])->name('sistema_expedientes.updateCliente');
+//         Route::post('deleteCliente', [App\Http\Controllers\dashboard\ClientesController::class, 'deleteCliente'])->name('cliente.delete');
+//         Route::post('datos-cliente', [App\Http\Controllers\dashboard\ClientesController::class, 'datosCliente']);
+//         Route::post('datos-cliente2', [App\Http\Controllers\dashboard\ClientesController::class, 'datosCliente2']);
 
 //         Route::middleware(['verificarAccesoJudicial'])->group(function () {
 //             // CEJ judicial

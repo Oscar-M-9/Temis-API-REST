@@ -3248,51 +3248,95 @@
                 ]
             }
         },
-        "/api/judiciales": {
+        "/api/clientes": {
             "get": {
                 "tags": [
-                    "Expedientes"
+                    "Clientes"
                 ],
-                "summary": "Listado de todos los expedientes judiciales",
-                "operationId": "6c28af1ffa304520c6ac0690a068d23a",
+                "summary": "Obtener lista de clientes",
+                "operationId": "feeb9d6ff6ab95748620d3ac49186b6a",
                 "responses": {
                     "200": {
-                        "description": "Ok",
+                        "description": "Lista de clientes",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "rows": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Clientes"
+                                        },
+                                        "clientes": {
                                             "type": "array",
                                             "items": {
                                                 "properties": {
                                                     "id": {
-                                                        "type": "number",
-                                                        "example": "1"
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "type_contact": {
+                                                        "type": "string",
+                                                        "example": "Empresa"
                                                     },
                                                     "name": {
                                                         "type": "string",
-                                                        "example": "Aderson Felix"
+                                                        "example": null
                                                     },
-                                                    "slug": {
+                                                    "last_name": {
                                                         "type": "string",
-                                                        "example": "Jara Lazaro"
+                                                        "example": null
                                                     },
-                                                    "description": {
+                                                    "dni": {
                                                         "type": "string",
-                                                        "example": "Jara Lazaro"
+                                                        "example": null
                                                     },
-                                                    "price": {
-                                                        "type": "decimal",
-                                                        "example": "Jara Lazaro"
+                                                    "birthdate": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "company": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "name_company": {
+                                                        "type": "string",
+                                                        "example": "demo"
+                                                    },
+                                                    "ruc": {
+                                                        "type": "string",
+                                                        "example": "1234568790875746"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "{'email':'alnuawd@sagssdg.adgs','type_email':'Trabajo','email2':null,'type_email2':'Trabajo'}"
+                                                    },
+                                                    "phone": {
+                                                        "type": "string",
+                                                        "example": "{'phone':'2354325','type_phone':'Trabajo','phone2':null,'type_phone2':'Trabajo'}"
+                                                    },
+                                                    "address": {
+                                                        "type": "string",
+                                                        "example": "{'country':'Perú','departamento':'20','provincia':'152','distrito':'1534','street':'qwetryuio'}"
+                                                    },
+                                                    "code_user": {
+                                                        "type": "string",
+                                                        "example": "Temis-1"
+                                                    },
+                                                    "code_company": {
+                                                        "type": "string",
+                                                        "example": "desarrollo"
                                                     },
                                                     "created_at": {
                                                         "type": "string",
-                                                        "example": "2023-02-23T00:09:16.000000Z"
+                                                        "example": null
                                                     },
                                                     "updated_at": {
                                                         "type": "string",
-                                                        "example": "2023-02-23T12:33:45.000000Z"
+                                                        "example": null
                                                     }
                                                 },
                                                 "type": "object"
@@ -3304,7 +3348,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         }
     },
