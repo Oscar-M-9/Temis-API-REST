@@ -105,7 +105,140 @@ class ExpedientesController extends Controller
         $limitExpedientes = $dataSuscripcion->limit_judicial;
 
 
-        return view('dashboard.sistema_expedientes.expedientesRegistroExpedientes', compact('expedientes', 'totalExpedientes', 'limitExpedientes'));
+        // return view('dashboard.sistema_expedientes.expedientesRegistroExpedientes', compact('expedientes', 'totalExpedientes', 'limitExpedientes'));
+        return response()->json([
+            'expedientes',
+            'totalExpedientes',
+            'limitExpedientes',
+        ]);
+    }
+
+    /**
+     * Obtener expedientes del poder judicial para un cliente específico
+     *
+     * @OA\Get(
+     *     path="/api/procesos-poder-judicial/{idClient}",
+     *     tags={"Procesos CEJ JUDICIAL"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="idClient",
+     *         in="path",
+     *         description="ID del cliente",
+     *         required=true,
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Expedientes del poder judicial del cliente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="boolean", example=true),
+     *             @OA\Property(property="message", type="string", example="Lista de expedientes del cliente"),
+     *             @OA\Property(property="expedientes", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=2),
+     *                     @OA\Property(property="n_expediente", type="string", example="03946-2020-0-1706-JR-LA-01"),
+     *                     @OA\Property(property="materia", type="string", example="PAGO DE BENEFICIOS SOCIALES Y/O INDEMNIZACION U OTROS BENEFICIOS ECONOMICOS"),
+     *                     @OA\Property(property="proceso", type="string", example="ORDINARIO"),
+     *                     @OA\Property(property="lawyer_responsible", type="string", example="CUBAS PERALTA BERTHA ELENA"),
+     *                     @OA\Property(property="estado", type="string", example="DEVOLUCION A JUZGADO DE ORIGEN"),
+     *                     @OA\Property(property="sumilla", type="string", example="APELACION DE SENTENCIA DE FECHA 13.12.2022"),
+     *                     @OA\Property(property="date_initial", type="string", example="2020-12-01"),
+     *                     @OA\Property(property="update_date", type="string", example=null),
+     *                     @OA\Property(property="name", type="string", example=null),
+     *                     @OA\Property(property="last_name", type="string", example=null),
+     *                     @OA\Property(property="name_company", type="string", example="demo"),
+     *                     @OA\Property(property="type_contact", type="string", example="Empresa"),
+     *                     @OA\Property(property="ruc", type="string", example="1234568790875746"),
+     *                     @OA\Property(property="email", type="string", example="{'email':'alnuawd@sagssdg.adgs','type_email':'Trabajo','email2':null,'type_email2':'Trabajo'}"),
+     *                     @OA\Property(property="phone", type="string", example="{'phone':'2354325','type_phone':'Trabajo','phone2':null,'type_phone2':'Trabajo'}"),
+     *                     @OA\Property(property="fecha_ingreso", type="string", example=null),
+     *                     @OA\Property(property="fecha_resolucion", type="string", example=null),
+     *                     @OA\Property(property="u_date", type="string", example="2023-12-28")
+     *                 )
+     *             ),
+     *             @OA\Property(property="totalExpedientes", type="integer", example=2),
+     *             @OA\Property(property="limitExpedientes", type="integer", example=null)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No se encontraron expedientes para el cliente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="No se encontraron expedientes para el cliente"),
+     *             @OA\Property(property="expedientes", type="string", example="[]"),
+     *             @OA\Property(property="totalExpedientes", type="integer", example=0),
+     *             @OA\Property(property="limitExpedientes", type="string", example=null)
+     *         )
+     *     )
+     * )
+     */
+
+    public function mostrarExpedientesCliente($idClient)
+    {
+
+        if (is_numeric($idClient)) {
+
+            $expedientes = Expedientes::join('clientes', 'expedientes.id_client', '=', 'clientes.id')
+                ->select(
+                    'expedientes.id',
+                    'expedientes.n_expediente',
+                    'expedientes.materia',
+                    'expedientes.proceso',
+                    'expedientes.lawyer_responsible',
+                    'expedientes.estado',
+                    'expedientes.sumilla',
+                    'expedientes.date_initial',
+                    'expedientes.update_date',
+                    'clientes.name',
+                    'clientes.last_name',
+                    'clientes.name_company',
+                    'clientes.type_contact',
+                    'clientes.ruc',
+                    'clientes.email',
+                    'clientes.phone',
+                    'follow_ups.fecha_ingreso',
+                    'follow_ups.fecha_resolucion',
+                    'follow_ups.u_date',
+                )
+                ->leftJoin('follow_ups', function ($join) {
+                    $join->on('expedientes.id', '=', 'follow_ups.id_exp')
+                        ->where('follow_ups.id', '=', function ($query) {
+                            $query->select(DB::raw('MAX(id)'))
+                                ->from('follow_ups')
+                                ->whereColumn('id_exp', 'expedientes.id');
+                        });
+                })
+                ->orderBy('expedientes.id', 'desc')
+                ->where('expedientes.code_company', Auth::user()->code_company)
+                ->where('expedientes.id_client', $idClient)
+                ->get();
+
+            $dataCompany = Company::where('code_company', Auth::user()->code_company)->first();
+            $dataSuscripcion = Suscripcion::where('id', $dataCompany->id_suscripcion)->first();
+            $totalExpedientes = Expedientes::where('code_company', Auth::user()->code_company)
+                ->where('id_client', $idClient)
+                ->count();
+            $limitExpedientes = $dataSuscripcion->limit_judicial;
+
+
+            // return view('dashboard.sistema_expedientes.expedientesRegistroExpedientes', compact('expedientes', 'totalExpedientes', 'limitExpedientes'));
+            return response()->json([
+                "status" => true,
+                "message" => "Lista de expedientes del cliente",
+                'expedientes' => $expedientes,
+                'totalExpedientes' => $totalExpedientes,
+                'limitExpedientes' => $limitExpedientes,
+            ], 200);
+        } else {
+            return response()->json([
+                "status" => false,
+                "message" => "No se encontraron expedientes para el cliente",
+                'expedientes' => [],
+                'totalExpedientes' => 0,
+                'limitExpedientes' => null,
+            ], 404);
+        }
     }
 
     public function query(Request $request)

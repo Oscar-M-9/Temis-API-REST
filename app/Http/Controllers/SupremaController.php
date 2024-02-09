@@ -77,6 +77,148 @@ class SupremaController extends Controller
         return view('dashboard.sistema_expedientes.suprema.expedientesRegistroExpedientes', compact('expedientes', 'totalExpedientes', 'limitExpedientes'));
     }
 
+    /**
+     * Obtener expedientes de la Corte Suprema para un cliente específico
+     *
+     * @OA\Get(
+     *     path="/api/procesos-corte-suprema/{idClient}",
+     *     tags={"Procesos CEJ SUPREMA"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="idClient",
+     *         in="path",
+     *         description="ID del cliente",
+     *         required=true,
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Expedientes de la Corte Suprema del cliente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="boolean", example=true),
+     *             @OA\Property(property="message", type="string", example="Lista de expedientes del cliente"),
+     *             @OA\Property(property="expedientes", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=9),
+     *                     @OA\Property(property="n_expediente", type="string", example="02398-2010-0-5001-SU-PE-01"),
+     *                     @OA\Property(property="instancia", type="string", example="SALA SUPREMA PENAL PERMANENTE"),
+     *                     @OA\Property(property="recurso_sala", type="string", example="QUEJA NCPP 00072 - 2010"),
+     *                     @OA\Property(property="fecha_ingreso", type="string", example="2010-08-08 00:00:00"),
+     *                     @OA\Property(property="organo_procedencia", type="string", example="2° SALA PENAL DE APELACIONES"),
+     *                     @OA\Property(property="relator", type="string", example="VERA LUNA  SUSANA LOURDES"),
+     *                     @OA\Property(property="distrito_judicial", type="string", example="LA LIBERTAD"),
+     *                     @OA\Property(property="numero_procedencia", type="string", example="0000383 - 2010"),
+     *                     @OA\Property(property="secretario", type="string", example="PILAR ROXANA SALAS CAMPOS"),
+     *                     @OA\Property(property="delito", type="string", example="Formas agravadas de tráfico ilícito de drogas."),
+     *                     @OA\Property(property="ubicacion", type="string", example="MESA DE PARTES DE SALA SUPREMA"),
+     *                     @OA\Property(property="estado", type="string", example="EN TRAMITE"),
+     *                     @OA\Property(property="entidad", type="string", example="Consulta de Expedientes Judiciales Supremo (CEJ Supremo)"),
+     *                     @OA\Property(property="url_suprema", type="string", example="https://apps.pj.gob.pe/cejSupremo/Expediente/DetalleExpediente.aspx?data=EIuEtHaCP5iTGggJasXOvISNOS5jGszLiJaBeTjIUz1dEKBX2ApCyZCZ7GRpHbZZFNhXV8GKAfgV9tzs7uXfJal1nwKETXP4rCmv5F4ecN0HeMfM4NojZ3iHO9rU%2fkZ5%2feGIRvjt6gr7J3noNO2sPmJhmoNLQV4t%2fhf1V5DD9%2f2R1FFVjbkr16K83QY%2bEgUWrGSnBIByYT6V8a2kpUtxCCbjL4Ba5YfBkfKSkGfbaeYf"),
+     *                     @OA\Property(property="partes_procesales", type="string", example="[['AGRAVIADO ','ESTADO',''],['QUEJOSO ','SALOMON SANTACRUZ SANTACRUZ','Recurrente'],['IMPUTADO ','SALOMON SANTACRUZ SANTACRUZ',''],['MINISTERIO PUBLICO ','MINISTERIO PUBLICO','']]"),
+     *                     @OA\Property(property="date_state", type="string", example="2023-12-19"),
+     *                     @OA\Property(property="state", type="string", example="Pendiente"),
+     *                     @OA\Property(property="name", type="string", example=null),
+     *                     @OA\Property(property="last_name", type="string", example=null),
+     *                     @OA\Property(property="name_company", type="string", example="demo"),
+     *                     @OA\Property(property="type_contact", type="string", example="Empresa"),
+     *                     @OA\Property(property="ruc", type="string", example="1234568790875746"),
+     *                     @OA\Property(property="email", type="string", example="{'email':'alnuawd@sagssdg.adgs','type_email':'Trabajo','email2':null,'type_email2':'Trabajo'}"),
+     *                     @OA\Property(property="phone", type="string", example="{'phone':'2354325','type_phone':'Trabajo','phone2':null,'type_phone2':'Trabajo'}"),
+     *                     @OA\Property(property="fecha", type="string", example="2012-10-10"),
+     *                     @OA\Property(property="u_date", type="string", example=null)
+     *                 )
+     *             ),
+     *             @OA\Property(property="totalExpedientes", type="integer", example=1),
+     *             @OA\Property(property="limitExpedientes", type="null")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No se encontraron expedientes de la Corte Suprema para el cliente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="No se encontraron expedientes de la Corte Suprema para el cliente"),
+     *             @OA\Property(property="expedientes", type="string", example="[]"),
+     *             @OA\Property(property="totalExpedientes", type="integer", example=0),
+     *             @OA\Property(property="limitExpedientes", type="string", example=null)
+     *         )
+     *     )
+     * )
+     */
+
+    public function mostrarExpedientesCliente($idClient)
+    {
+        if (is_numeric($idClient)) {
+
+            $expedientes = CorteSuprema::join('clientes', 'corte_supremas.id_client', '=', 'clientes.id')
+                ->select(
+                    'corte_supremas.id',
+                    'corte_supremas.n_expediente',
+                    'corte_supremas.instancia',
+                    'corte_supremas.recurso_sala',
+                    'corte_supremas.fecha_ingreso',
+                    'corte_supremas.organo_procedencia',
+                    'corte_supremas.relator',
+                    'corte_supremas.distrito_judicial',
+                    'corte_supremas.numero_procedencia',
+                    'corte_supremas.secretario',
+                    'corte_supremas.delito',
+                    'corte_supremas.ubicacion',
+                    'corte_supremas.estado',
+                    'corte_supremas.entidad',
+                    'corte_supremas.url_suprema',
+                    'corte_supremas.partes_procesales',
+                    'corte_supremas.date_state',
+                    'corte_supremas.state',
+                    'clientes.name',
+                    'clientes.last_name',
+                    'clientes.name_company',
+                    'clientes.type_contact',
+                    'clientes.ruc',
+                    'clientes.email',
+                    'clientes.phone',
+                    'seguimiento_supremas.fecha',
+                    'seguimiento_supremas.u_date',
+                )
+                ->leftJoin('seguimiento_supremas', function ($join) {
+                    $join->on('corte_supremas.id', '=', 'seguimiento_supremas.id_exp')
+                        ->where('seguimiento_supremas.id', '=', function ($query) {
+                            $query->select(DB::raw('MAX(id)'))
+                                ->from('seguimiento_supremas')
+                                ->whereColumn('id_exp', 'corte_supremas.id');
+                        });
+                })
+                ->orderBy('corte_supremas.id', 'desc')
+                ->where('corte_supremas.code_company', Auth::user()->code_company)
+                ->where('corte_supremas.id_client', $idClient)
+                ->get();
+
+            $dataCompany = Company::where('code_company', Auth::user()->code_company)->first();
+            $dataSuscripcion = Suscripcion::where('id', $dataCompany->id_suscripcion)->first();
+            $totalExpedientes = CorteSuprema::where('code_company', Auth::user()->code_company)
+                ->where('id_client', $idClient)
+                ->count();
+            $limitExpedientes = $dataSuscripcion->limit_suprema;
+
+            // return view('dashboard.sistema_expedientes.suprema.expedientesRegistroExpedientes', compact('expedientes', 'totalExpedientes', 'limitExpedientes'));
+            return response()->json([
+                "status" => true,
+                "message" => "Lista de expedientes del cliente",
+                'expedientes' => $expedientes,
+                'totalExpedientes' => $totalExpedientes,
+                'limitExpedientes' => $limitExpedientes,
+            ], 200);
+        } else {
+            return response()->json([
+                "status" => false,
+                "message" => "No se encontraron expedientes para el cliente",
+                'expedientes' => [],
+                'totalExpedientes' => 0,
+                'limitExpedientes' => null,
+            ], 404);
+        }
+    }
+
     // GET DATOS EXPEDIENTE
     public function datosExpediente(Request $request)
     {

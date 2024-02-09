@@ -2429,6 +2429,169 @@
                 ]
             }
         },
+        "/api/procesos-sinoe/{idClient}": {
+            "get": {
+                "tags": [
+                    "Procesos SINOE"
+                ],
+                "summary": "Obtener expedientes de SINOE para un cliente específico",
+                "operationId": "f3be2b24551ed3ea67ef4ac769616e24",
+                "parameters": [
+                    {
+                        "name": "idClient",
+                        "in": "path",
+                        "description": "ID del cliente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Expedientes de SINOE del cliente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lista de expedientes del cliente"
+                                        },
+                                        "expedientes": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "n_expediente": {
+                                                        "type": "string",
+                                                        "example": "10600-2023-0-1706-JR-PE-01"
+                                                    },
+                                                    "materia": {
+                                                        "type": "string",
+                                                        "example": "Materia(s)"
+                                                    },
+                                                    "proceso": {
+                                                        "type": "string",
+                                                        "example": "Proceso *"
+                                                    },
+                                                    "lawyer_responsible": {
+                                                        "type": "string",
+                                                        "example": "Especialista Legal"
+                                                    },
+                                                    "estado": {
+                                                        "type": "string",
+                                                        "example": "Estado *"
+                                                    },
+                                                    "sumilla": {
+                                                        "type": "string",
+                                                        "example": "Sumilla"
+                                                    },
+                                                    "date_initial": {
+                                                        "type": "string",
+                                                        "example": "2023-12-04"
+                                                    },
+                                                    "update_date": {
+                                                        "type": "null"
+                                                    },
+                                                    "name": {
+                                                        "type": "null"
+                                                    },
+                                                    "last_name": {
+                                                        "type": "null"
+                                                    },
+                                                    "name_company": {
+                                                        "type": "string",
+                                                        "example": "demo"
+                                                    },
+                                                    "type_contact": {
+                                                        "type": "string",
+                                                        "example": "Empresa"
+                                                    },
+                                                    "ruc": {
+                                                        "type": "string",
+                                                        "example": "1234568790875746"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "{'email':'alnuawd@sagssdg.adgs','type_email':'Trabajo','email2':null,'type_email2':'Trabajo'}"
+                                                    },
+                                                    "phone": {
+                                                        "type": "string",
+                                                        "example": "{'phone':'2354325','type_phone':'Trabajo','phone2':null,'type_phone2':'Trabajo'}"
+                                                    },
+                                                    "fecha": {
+                                                        "type": "string",
+                                                        "example": "2023-10-17 17:40:39"
+                                                    },
+                                                    "u_date": {
+                                                        "type": "null"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "totalExpedientes": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "limitExpedientes": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontraron expedientes de la Corte Suprema para el cliente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No se encontraron expedientes de la Corte Suprema para el cliente"
+                                        },
+                                        "expedientes": {
+                                            "type": "string",
+                                            "example": "[]"
+                                        },
+                                        "totalExpedientes": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "limitExpedientes": {
+                                            "type": "string",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/home": {
             "get": {
                 "tags": [
@@ -2558,6 +2721,183 @@
                                                 }
                                             },
                                             "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/procesos-indecopi/{idClient}": {
+            "get": {
+                "tags": [
+                    "Procesos INDECOPI"
+                ],
+                "summary": "Obtener expedientes de INDECOPI para un cliente específico",
+                "operationId": "9509bb4d9ac4c3dd146b4179fd3dc256",
+                "parameters": [
+                    {
+                        "name": "idClient",
+                        "in": "path",
+                        "description": "ID del cliente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Expedientes de INDECOPI del cliente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lista de expedientes del cliente"
+                                        },
+                                        "expedientes": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "tipo": {
+                                                        "type": "string",
+                                                        "example": "Reclamos"
+                                                    },
+                                                    "numero": {
+                                                        "type": "string",
+                                                        "example": "00001210-2020-SAC-CAJ/RC"
+                                                    },
+                                                    "oficina": {
+                                                        "type": "string",
+                                                        "example": "ORI CAJAMARCA"
+                                                    },
+                                                    "responsable": {
+                                                        "type": "string",
+                                                        "example": "SEGUNDO  VASQUEZ ALVARADO"
+                                                    },
+                                                    "via_presentacion": {
+                                                        "type": "string",
+                                                        "example": "RECLAMA VIRTUAL"
+                                                    },
+                                                    "fecha_inicio": {
+                                                        "type": "string",
+                                                        "example": "0000-00-00"
+                                                    },
+                                                    "estado": {
+                                                        "type": "string",
+                                                        "example": "ARCHIVADO"
+                                                    },
+                                                    "fecha": {
+                                                        "type": "string",
+                                                        "example": "2020-10-12"
+                                                    },
+                                                    "forma_conclusion": {
+                                                        "type": "null"
+                                                    },
+                                                    "partes_procesales1": {
+                                                        "type": "string",
+                                                        "example": "[['','DNI','26702196','NARRO LEON WILMA LUISA','PERU, CAJAMARCA, CAJAMARCA, LOS BANOS DEL INCA'],['RECLAMANTE','RUC','20570826825','ERS ENTRENAMIENTO Y CAPACITACION - CAJAMARCA S.A.C.','PERU, CAJAMARCA, CAJAMARCA, CAJAMARCA']]"
+                                                    },
+                                                    "partes_procesales2": {
+                                                        "type": "string",
+                                                        "example": "[['RECLAMADO','RUC','20454870591','BS GRUPO S.A.C.','ROMA\\\\ÑA - CALLE 2 107','PERU, AREQUIPA, AREQUIPA, CAYMA']]"
+                                                    },
+                                                    "acciones_realizadas": {
+                                                        "type": "null"
+                                                    },
+                                                    "entidad": {
+                                                        "type": "string",
+                                                        "example": "Indecopi - Búsqueda por Reclamante/Ciudadano"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "last_name": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "name_company": {
+                                                        "type": "string",
+                                                        "example": "demo"
+                                                    },
+                                                    "type_contact": {
+                                                        "type": "string",
+                                                        "example": "Empresa"
+                                                    },
+                                                    "ruc": {
+                                                        "type": "string",
+                                                        "example": "1234568790875746"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "{'email':'alnuawd@sagssdg.adgs','type_email':'Trabajo','email2':null,'type_email2':'Trabajo'}"
+                                                    },
+                                                    "phone": {
+                                                        "type": "string",
+                                                        "example": "{'phone':'2354325','type_phone':'Trabajo','phone2':null,'type_phone2':'Trabajo'}"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "totalExpedientes": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "limitExpedientes": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontraron expedientes de la Corte Suprema para el cliente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No se encontraron expedientes de la Corte Suprema para el cliente"
+                                        },
+                                        "expedientes": {
+                                            "type": "string",
+                                            "example": "[]"
+                                        },
+                                        "totalExpedientes": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "limitExpedientes": {
+                                            "type": "string",
+                                            "example": null
                                         }
                                     },
                                     "type": "object"
@@ -2739,6 +3079,209 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Recurso no encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/procesos-corte-suprema/{idClient}": {
+            "get": {
+                "tags": [
+                    "Procesos CEJ SUPREMA"
+                ],
+                "summary": "Obtener expedientes de la Corte Suprema para un cliente específico",
+                "operationId": "c2e7996ea0cae9f9cb5e243c825c4876",
+                "parameters": [
+                    {
+                        "name": "idClient",
+                        "in": "path",
+                        "description": "ID del cliente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Expedientes de la Corte Suprema del cliente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lista de expedientes del cliente"
+                                        },
+                                        "expedientes": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 9
+                                                    },
+                                                    "n_expediente": {
+                                                        "type": "string",
+                                                        "example": "02398-2010-0-5001-SU-PE-01"
+                                                    },
+                                                    "instancia": {
+                                                        "type": "string",
+                                                        "example": "SALA SUPREMA PENAL PERMANENTE"
+                                                    },
+                                                    "recurso_sala": {
+                                                        "type": "string",
+                                                        "example": "QUEJA NCPP 00072 - 2010"
+                                                    },
+                                                    "fecha_ingreso": {
+                                                        "type": "string",
+                                                        "example": "2010-08-08 00:00:00"
+                                                    },
+                                                    "organo_procedencia": {
+                                                        "type": "string",
+                                                        "example": "2° SALA PENAL DE APELACIONES"
+                                                    },
+                                                    "relator": {
+                                                        "type": "string",
+                                                        "example": "VERA LUNA  SUSANA LOURDES"
+                                                    },
+                                                    "distrito_judicial": {
+                                                        "type": "string",
+                                                        "example": "LA LIBERTAD"
+                                                    },
+                                                    "numero_procedencia": {
+                                                        "type": "string",
+                                                        "example": "0000383 - 2010"
+                                                    },
+                                                    "secretario": {
+                                                        "type": "string",
+                                                        "example": "PILAR ROXANA SALAS CAMPOS"
+                                                    },
+                                                    "delito": {
+                                                        "type": "string",
+                                                        "example": "Formas agravadas de tráfico ilícito de drogas."
+                                                    },
+                                                    "ubicacion": {
+                                                        "type": "string",
+                                                        "example": "MESA DE PARTES DE SALA SUPREMA"
+                                                    },
+                                                    "estado": {
+                                                        "type": "string",
+                                                        "example": "EN TRAMITE"
+                                                    },
+                                                    "entidad": {
+                                                        "type": "string",
+                                                        "example": "Consulta de Expedientes Judiciales Supremo (CEJ Supremo)"
+                                                    },
+                                                    "url_suprema": {
+                                                        "type": "string",
+                                                        "example": "https://apps.pj.gob.pe/cejSupremo/Expediente/DetalleExpediente.aspx?data=EIuEtHaCP5iTGggJasXOvISNOS5jGszLiJaBeTjIUz1dEKBX2ApCyZCZ7GRpHbZZFNhXV8GKAfgV9tzs7uXfJal1nwKETXP4rCmv5F4ecN0HeMfM4NojZ3iHO9rU%2fkZ5%2feGIRvjt6gr7J3noNO2sPmJhmoNLQV4t%2fhf1V5DD9%2f2R1FFVjbkr16K83QY%2bEgUWrGSnBIByYT6V8a2kpUtxCCbjL4Ba5YfBkfKSkGfbaeYf"
+                                                    },
+                                                    "partes_procesales": {
+                                                        "type": "string",
+                                                        "example": "[['AGRAVIADO ','ESTADO',''],['QUEJOSO ','SALOMON SANTACRUZ SANTACRUZ','Recurrente'],['IMPUTADO ','SALOMON SANTACRUZ SANTACRUZ',''],['MINISTERIO PUBLICO ','MINISTERIO PUBLICO','']]"
+                                                    },
+                                                    "date_state": {
+                                                        "type": "string",
+                                                        "example": "2023-12-19"
+                                                    },
+                                                    "state": {
+                                                        "type": "string",
+                                                        "example": "Pendiente"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "last_name": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "name_company": {
+                                                        "type": "string",
+                                                        "example": "demo"
+                                                    },
+                                                    "type_contact": {
+                                                        "type": "string",
+                                                        "example": "Empresa"
+                                                    },
+                                                    "ruc": {
+                                                        "type": "string",
+                                                        "example": "1234568790875746"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "{'email':'alnuawd@sagssdg.adgs','type_email':'Trabajo','email2':null,'type_email2':'Trabajo'}"
+                                                    },
+                                                    "phone": {
+                                                        "type": "string",
+                                                        "example": "{'phone':'2354325','type_phone':'Trabajo','phone2':null,'type_phone2':'Trabajo'}"
+                                                    },
+                                                    "fecha": {
+                                                        "type": "string",
+                                                        "example": "2012-10-10"
+                                                    },
+                                                    "u_date": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "totalExpedientes": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "limitExpedientes": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontraron expedientes de la Corte Suprema para el cliente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No se encontraron expedientes de la Corte Suprema para el cliente"
+                                        },
+                                        "expedientes": {
+                                            "type": "string",
+                                            "example": "[]"
+                                        },
+                                        "totalExpedientes": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "limitExpedientes": {
+                                            "type": "string",
+                                            "example": null
                                         }
                                     },
                                     "type": "object"
@@ -3341,6 +3884,178 @@
                                                 },
                                                 "type": "object"
                                             }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/procesos-poder-judicial/{idClient}": {
+            "get": {
+                "tags": [
+                    "Procesos CEJ JUDICIAL"
+                ],
+                "summary": "Obtener expedientes del poder judicial para un cliente específico",
+                "operationId": "fc7ec74e0b2f2c6f9cd341001918b874",
+                "parameters": [
+                    {
+                        "name": "idClient",
+                        "in": "path",
+                        "description": "ID del cliente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Expedientes del poder judicial del cliente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lista de expedientes del cliente"
+                                        },
+                                        "expedientes": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "n_expediente": {
+                                                        "type": "string",
+                                                        "example": "03946-2020-0-1706-JR-LA-01"
+                                                    },
+                                                    "materia": {
+                                                        "type": "string",
+                                                        "example": "PAGO DE BENEFICIOS SOCIALES Y/O INDEMNIZACION U OTROS BENEFICIOS ECONOMICOS"
+                                                    },
+                                                    "proceso": {
+                                                        "type": "string",
+                                                        "example": "ORDINARIO"
+                                                    },
+                                                    "lawyer_responsible": {
+                                                        "type": "string",
+                                                        "example": "CUBAS PERALTA BERTHA ELENA"
+                                                    },
+                                                    "estado": {
+                                                        "type": "string",
+                                                        "example": "DEVOLUCION A JUZGADO DE ORIGEN"
+                                                    },
+                                                    "sumilla": {
+                                                        "type": "string",
+                                                        "example": "APELACION DE SENTENCIA DE FECHA 13.12.2022"
+                                                    },
+                                                    "date_initial": {
+                                                        "type": "string",
+                                                        "example": "2020-12-01"
+                                                    },
+                                                    "update_date": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "last_name": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "name_company": {
+                                                        "type": "string",
+                                                        "example": "demo"
+                                                    },
+                                                    "type_contact": {
+                                                        "type": "string",
+                                                        "example": "Empresa"
+                                                    },
+                                                    "ruc": {
+                                                        "type": "string",
+                                                        "example": "1234568790875746"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "{'email':'alnuawd@sagssdg.adgs','type_email':'Trabajo','email2':null,'type_email2':'Trabajo'}"
+                                                    },
+                                                    "phone": {
+                                                        "type": "string",
+                                                        "example": "{'phone':'2354325','type_phone':'Trabajo','phone2':null,'type_phone2':'Trabajo'}"
+                                                    },
+                                                    "fecha_ingreso": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "fecha_resolucion": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "u_date": {
+                                                        "type": "string",
+                                                        "example": "2023-12-28"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "totalExpedientes": {
+                                            "type": "integer",
+                                            "example": 2
+                                        },
+                                        "limitExpedientes": {
+                                            "type": "integer",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontraron expedientes para el cliente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No se encontraron expedientes para el cliente"
+                                        },
+                                        "expedientes": {
+                                            "type": "string",
+                                            "example": "[]"
+                                        },
+                                        "totalExpedientes": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "limitExpedientes": {
+                                            "type": "string",
+                                            "example": null
                                         }
                                     },
                                     "type": "object"

@@ -84,6 +84,131 @@ class ExpedienteSinoeController extends Controller
         return view('dashboard.sistema_expedientes.sinoe.expedientesRegistroExpedientes', compact('expedientes', 'totalExpedientes', 'limitExpedientes'));
     }
 
+    /**
+     * Obtener expedientes de SINOE para un cliente específico
+     *
+     * @OA\Get(
+     *     path="/api/procesos-sinoe/{idClient}",
+     *     tags={"Procesos SINOE"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="idClient",
+     *         in="path",
+     *         description="ID del cliente",
+     *         required=true,
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Expedientes de SINOE del cliente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="boolean", example=true),
+     *             @OA\Property(property="message", type="string", example="Lista de expedientes del cliente"),
+     *             @OA\Property(property="expedientes", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="n_expediente", type="string", example="10600-2023-0-1706-JR-PE-01"),
+     *                     @OA\Property(property="materia", type="string", example="Materia(s)"),
+     *                     @OA\Property(property="proceso", type="string", example="Proceso *"),
+     *                     @OA\Property(property="lawyer_responsible", type="string", example="Especialista Legal"),
+     *                     @OA\Property(property="estado", type="string", example="Estado *"),
+     *                     @OA\Property(property="sumilla", type="string", example="Sumilla"),
+     *                     @OA\Property(property="date_initial", type="string", example="2023-12-04"),
+     *                     @OA\Property(property="update_date", type="null"),
+     *                     @OA\Property(property="name", type="null"),
+     *                     @OA\Property(property="last_name", type="null"),
+     *                     @OA\Property(property="name_company", type="string", example="demo"),
+     *                     @OA\Property(property="type_contact", type="string", example="Empresa"),
+     *                     @OA\Property(property="ruc", type="string", example="1234568790875746"),
+     *                     @OA\Property(property="email", type="string", example="{'email':'alnuawd@sagssdg.adgs','type_email':'Trabajo','email2':null,'type_email2':'Trabajo'}"),
+     *                     @OA\Property(property="phone", type="string", example="{'phone':'2354325','type_phone':'Trabajo','phone2':null,'type_phone2':'Trabajo'}"),
+     *                     @OA\Property(property="fecha", type="string", example="2023-10-17 17:40:39"),
+     *                     @OA\Property(property="u_date", type="null")
+     *                 )
+     *             ),
+     *             @OA\Property(property="totalExpedientes", type="integer", example=1),
+     *             @OA\Property(property="limitExpedientes", type="null")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No se encontraron expedientes de la Corte Suprema para el cliente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="No se encontraron expedientes de la Corte Suprema para el cliente"),
+     *             @OA\Property(property="expedientes", type="string", example="[]"),
+     *             @OA\Property(property="totalExpedientes", type="integer", example=0),
+     *             @OA\Property(property="limitExpedientes", type="string", example=null)
+     *         )
+     *     )
+     * )
+     */
+
+    public function mostrarExpedientesCliente($idClient)
+    {
+        if (is_numeric($idClient)) {
+            $expedientes = ExpedienteSinoe::join('clientes', 'expediente_sinoes.id_client', '=', 'clientes.id')
+                ->select(
+                    'expediente_sinoes.id',
+                    'expediente_sinoes.n_expediente',
+                    'expediente_sinoes.materia',
+                    'expediente_sinoes.proceso',
+                    'expediente_sinoes.lawyer_responsible',
+                    'expediente_sinoes.estado',
+                    'expediente_sinoes.sumilla',
+                    'expediente_sinoes.date_initial',
+                    'expediente_sinoes.update_date',
+                    'clientes.name',
+                    'clientes.last_name',
+                    'clientes.name_company',
+                    'clientes.type_contact',
+                    'clientes.ruc',
+                    'clientes.email',
+                    'clientes.phone',
+                    'notification_sinoes.fecha',
+                    'notification_sinoes.u_date',
+                )
+                ->leftJoin('notification_sinoes', function ($join) {
+                    $join->on('expediente_sinoes.id', '=', 'notification_sinoes.id_exp')
+                        ->where('notification_sinoes.id', '=', function ($query) {
+                            $query->select(DB::raw('MAX(id)'))
+                                ->from('notification_sinoes')
+                                ->where('abog_virtual', 'si')
+                                ->whereColumn('id_exp', 'expediente_sinoes.id');
+                        });
+                })
+                ->orderBy('expediente_sinoes.id', 'desc')
+                ->where('expediente_sinoes.code_company', Auth::user()->code_company)
+                ->where('expediente_sinoes.id_client', $idClient)
+                ->whereNull('proceso_penal')
+                ->get();
+
+            $dataCompany = Company::where('code_company', Auth::user()->code_company)->first();
+            $dataSuscripcion = Suscripcion::where('id', $dataCompany->id_suscripcion)->first();
+            $totalExpedientes = ExpedienteSinoe::where('code_company', Auth::user()->code_company)
+                ->where('id_client', $idClient)
+                ->whereNull('proceso_penal')
+                ->count();
+            $limitExpedientes = $dataSuscripcion->limit_sinoe;
+
+            return response()->json([
+                "status" => true,
+                "message" => "Lista de expedientes del cliente",
+                'expedientes' => $expedientes,
+                'totalExpedientes' => $totalExpedientes,
+                'limitExpedientes' => $limitExpedientes,
+            ], 200);
+        } else {
+            return response()->json([
+                "status" => false,
+                "message" => "No se encontraron expedientes para el cliente",
+                'expedientes' => [],
+                'totalExpedientes' => 0,
+                'limitExpedientes' => null,
+            ], 404);
+        }
+    }
+
     public function query(Request $request)
     {
         $input = $request->all();

@@ -72,6 +72,136 @@ class IndecopiController extends Controller
         return view('dashboard.sistema_expedientes.indecopi.expedientesRegistroExpedientes', compact('expedientes', 'totalExpedientes', 'limitExpedientes'));
     }
 
+    /**
+     * Obtener expedientes de INDECOPI para un cliente específico
+     *
+     * @OA\Get(
+     *     path="/api/procesos-indecopi/{idClient}",
+     *     tags={"Procesos INDECOPI"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="idClient",
+     *         in="path",
+     *         description="ID del cliente",
+     *         required=true,
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Expedientes de INDECOPI del cliente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="boolean", example=true),
+     *             @OA\Property(property="message", type="string", example="Lista de expedientes del cliente"),
+     *             @OA\Property(property="expedientes", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="tipo", type="string", example="Reclamos"),
+     *                     @OA\Property(property="numero", type="string", example="00001210-2020-SAC-CAJ/RC"),
+     *                     @OA\Property(property="oficina", type="string", example="ORI CAJAMARCA"),
+     *                     @OA\Property(property="responsable", type="string", example="SEGUNDO  VASQUEZ ALVARADO"),
+     *                     @OA\Property(property="via_presentacion", type="string", example="RECLAMA VIRTUAL"),
+     *                     @OA\Property(property="fecha_inicio", type="string", example="0000-00-00"),
+     *                     @OA\Property(property="estado", type="string", example="ARCHIVADO"),
+     *                     @OA\Property(property="fecha", type="string", example="2020-10-12"),
+     *                     @OA\Property(property="forma_conclusion", type="null"),
+     *                     @OA\Property(property="partes_procesales1", type="string", example="[['','DNI','26702196','NARRO LEON WILMA LUISA','PERU, CAJAMARCA, CAJAMARCA, LOS BANOS DEL INCA'],['RECLAMANTE','RUC','20570826825','ERS ENTRENAMIENTO Y CAPACITACION - CAJAMARCA S.A.C.','PERU, CAJAMARCA, CAJAMARCA, CAJAMARCA']]"),
+     *                     @OA\Property(property="partes_procesales2", type="string", example="[['RECLAMADO','RUC','20454870591','BS GRUPO S.A.C.','ROMA\\ÑA - CALLE 2 107','PERU, AREQUIPA, AREQUIPA, CAYMA']]"),
+     *                     @OA\Property(property="acciones_realizadas", type="null"),
+     *                     @OA\Property(property="entidad", type="string", example="Indecopi - Búsqueda por Reclamante/Ciudadano"),
+     *                     @OA\Property(property="name", type="string", example=null),
+     *                     @OA\Property(property="last_name", type="string", example=null),
+     *                     @OA\Property(property="name_company", type="string", example="demo"),
+     *                     @OA\Property(property="type_contact", type="string", example="Empresa"),
+     *                     @OA\Property(property="ruc", type="string", example="1234568790875746"),
+     *                     @OA\Property(property="email", type="string", example="{'email':'alnuawd@sagssdg.adgs','type_email':'Trabajo','email2':null,'type_email2':'Trabajo'}"),
+     *                     @OA\Property(property="phone", type="string", example="{'phone':'2354325','type_phone':'Trabajo','phone2':null,'type_phone2':'Trabajo'}")
+     *                 )
+     *             ),
+     *             @OA\Property(property="totalExpedientes", type="integer", example=1),
+     *             @OA\Property(property="limitExpedientes", type="null")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No se encontraron expedientes de la Corte Suprema para el cliente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="No se encontraron expedientes de la Corte Suprema para el cliente"),
+     *             @OA\Property(property="expedientes", type="string", example="[]"),
+     *             @OA\Property(property="totalExpedientes", type="integer", example=0),
+     *             @OA\Property(property="limitExpedientes", type="string", example=null)
+     *         )
+     *     )
+     * )
+     */
+
+    public function mostrarExpedientesCliente($idClient)
+    {
+        if (is_numeric($idClient)) {
+            $expedientes = Indecopi::join('clientes', 'indecopis.id_client', '=', 'clientes.id')
+                ->select(
+                    'indecopis.id',
+                    'indecopis.tipo',
+                    'indecopis.numero',
+                    'indecopis.oficina',
+                    'indecopis.responsable',
+                    'indecopis.via_presentacion',
+                    'indecopis.fecha_inicio',
+                    'indecopis.estado',
+                    'indecopis.fecha',
+                    'indecopis.forma_conclusion',
+                    'indecopis.partes_procesales1',
+                    'indecopis.partes_procesales2',
+                    'indecopis.acciones_realizadas',
+                    'indecopis.entidad',
+                    'clientes.name',
+                    'clientes.last_name',
+                    'clientes.name_company',
+                    'clientes.type_contact',
+                    'clientes.ruc',
+                    'clientes.email',
+                    'clientes.phone',
+                    'acciones_indecopis.fecha',
+                )
+                ->leftJoin('acciones_indecopis', function ($join) {
+                    $join->on('indecopis.id', '=', 'acciones_indecopis.id_indecopi')
+                        ->where('acciones_indecopis.id', '=', function ($query) {
+                            $query->select(DB::raw('MAX(id)'))
+                                ->from('acciones_indecopis')
+                                ->whereColumn('id_indecopi', 'indecopis.id');
+                        });
+                })
+                ->orderBy('indecopis.id', 'desc')
+                ->where('indecopis.code_company', Auth::user()->code_company)
+                ->where('indecopis.id_client', $idClient)
+                ->get();
+
+            $dataCompany = Company::where('code_company', Auth::user()->code_company)->first();
+            $dataSuscripcion = Suscripcion::where('id', $dataCompany->id_suscripcion)->first();
+            $totalExpedientes = Indecopi::where('code_company', Auth::user()->code_company)
+                ->where('id_client', $idClient)
+                ->count();
+            $limitExpedientes = $dataSuscripcion->limit_indecopi;
+
+            // return view('dashboard.sistema_expedientes.indecopi.expedientesRegistroExpedientes', compact('expedientes', 'totalExpedientes', 'limitExpedientes'));
+            return response()->json([
+                "status" => true,
+                "message" => "Lista de expedientes del cliente",
+                'expedientes' => $expedientes,
+                'totalExpedientes' => $totalExpedientes,
+                'limitExpedientes' => $limitExpedientes,
+            ], 200);
+        } else {
+            return response()->json([
+                "status" => false,
+                "message" => "No se encontraron expedientes para el cliente",
+                'expedientes' => [],
+                'totalExpedientes' => 0,
+                'limitExpedientes' => null,
+            ], 404);
+        }
+    }
+
     // GET DATOS EXPEDIENTE
     public function datosExpediente(Request $request)
     {
