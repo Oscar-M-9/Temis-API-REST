@@ -9,6 +9,10 @@ use App\Http\Controllers\CreditController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\dashboard\ExpedientesController;
+use App\Http\Controllers\EconomicExpensesController;
+use App\Http\Controllers\EconomicExpensesIndecopiController;
+use App\Http\Controllers\EconomicExpensesSinoeController;
+use App\Http\Controllers\EconomicExpensesSupremaController;
 use App\Http\Controllers\EventSuggestionController;
 use App\Http\Controllers\ExpedienteSinoeController;
 use App\Http\Controllers\IndecopiController;
@@ -50,6 +54,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Calendario
     Route::get('/calendar', [CalendarTemisController::class, 'view']);
     Route::get('/calendar-client/{id}', [CalendarTemisController::class, 'getCalendarClient']);
+    Route::get('/calendar-proceso/{entidad}/{id}', [CalendarTemisController::class, 'getCalendarProceso']);
     Route::delete('/delete-calendar-event/{id}', [CalendarTemisController::class,  'deleteEventCalendar']);
     Route::post('/add-event-suggestion', [EventSuggestionController::class, 'addEvent']);
 
@@ -81,8 +86,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         //             Route::post('deleteExpediente', [App\Http\Controllers\dashboard\ExpedientesController::class, 'deleteExpediente'])->name('expediente.delete');
         //             Route::post('get-data-expediente', [App\Http\Controllers\dashboard\ExpedientesController::class, 'datosExpediente']);
 
-        //             // ? Movimientos
-        //             Route::get('seguimientos', [ExpedientesController::class, 'viewSeguimiento'])->name('sistema_expedientes.viewSeguimiento');
+        // ? Movimientos
+        Route::get('/poder-judicial/seguimientos', [ExpedientesController::class, 'viewSeguimiento']);
         //             Route::post('add-seguimiento', [ExpedientesController::class, 'addFollowUp']);
         //             Route::post('/guardar-video', [App\Http\Controllers\dashboard\ExpedientesController::class, 'guardarVideo']);
         //             Route::post('update-seguimiento', [App\Http\Controllers\dashboard\ExpedientesController::class, 'updateFollowUp']);
@@ -110,7 +115,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         //             Route::post('delete-comment', [App\Http\Controllers\dashboard\ExpedientesController::class, 'deleteComment']);
 
         //             Route::post('add-economic', [EconomicExpensesController::class, 'addEconomic']);
-        //             Route::post('get-economic', [EconomicExpensesController::class, 'getAllEconomic']);
+        Route::get('/poder-judicial/get-economic', [EconomicExpensesController::class, 'getAllEconomic']);
         //             Route::post('get-money-economic', [EconomicExpensesController::class, 'getAllMoneyEconomic']);
         //             Route::post('edit-economic', [EconomicExpensesController::class, 'editEconomic']);
         //             Route::post('delete-economic', [EconomicExpensesController::class, 'deleteEconomic']);
@@ -133,7 +138,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         //             Route::post('update-suprema', [SupremaController::class, 'updateExpediente'])->name('sistema_expedientes.suprema.updateExpediente');
         //             Route::post('deleteSuprema', [SupremaController::class, 'deleteExpediente'])->name('suprema.delete');
 
-        //             Route::get('seguimientos-corte-suprema', [SupremaController::class, 'viewAcciones'])->name('sistema_expedientes.suprema.viewAcciones');
+        Route::get('/corte-suprema/seguimientos-corte-suprema', [SupremaController::class, 'viewAcciones']);
         //             Route::post('add-accion-suprema', [SupremaController::class, 'addFollowUp']);
         //             Route::post('update-accion-suprema', [SupremaController::class, 'updateFollowUp']);
         //             Route::post('get-data-accion-suprema', [SupremaController::class, 'datosAccion']);
@@ -144,7 +149,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         //             Route::post('delete-comment-suprema', [SupremaController::class, 'deleteComment']);
 
         //             Route::post('add-economic-suprema', [EconomicExpensesSupremaController::class, 'addEconomic']);
-        //             Route::post('get-economic-suprema', [EconomicExpensesSupremaController::class, 'getAllEconomic']);
+        Route::get('/corte-suprema/get-economic', [EconomicExpensesSupremaController::class, 'getAllEconomic']);
         //             Route::post('get-money-economic-suprema', [EconomicExpensesSupremaController::class, 'getAllMoneyEconomic']);
         //             Route::post('edit-economic-suprema', [EconomicExpensesSupremaController::class, 'editEconomic']);
         //             Route::post('delete-economic-suprema', [EconomicExpensesSupremaController::class, 'deleteEconomic']);
@@ -181,7 +186,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         //             Route::post('update-indecopi', [IndecopiController::class, 'updateExpediente'])->name('sistema_expedientes.indecopi.updateExpediente');
         //             Route::post('deleteIndecopi', [IndecopiController::class, 'deleteExpediente'])->name('indecopi.delete');
 
-        //             Route::get('acciones-realizadas', [IndecopiController::class, 'viewAcciones'])->name('sistema_expedientes.indecopi.viewAcciones');
+        Route::get('/indecopi/acciones-realizadas', [IndecopiController::class, 'viewAcciones']);
         //             Route::post('add-accion-indecopi', [IndecopiController::class, 'addFollowUp']);
         //             Route::post('update-accion-indecopi', [IndecopiController::class, 'updateFollowUp']);
         //             Route::post('get-data-accion-indecopi', [IndecopiController::class, 'datosAccion']);
@@ -192,7 +197,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         //             Route::post('delete-comment-indecopi', [IndecopiController::class, 'deleteComment']);
 
         //             Route::post('add-economic-indecopi', [EconomicExpensesIndecopiController::class, 'addEconomic']);
-        //             Route::post('get-economic-indecopi', [EconomicExpensesIndecopiController::class, 'getAllEconomic']);
+        Route::get('/indecopi/get-economic', [EconomicExpensesIndecopiController::class, 'getAllEconomic']);
         //             Route::post('get-money-economic-indecopi', [EconomicExpensesIndecopiController::class, 'getAllMoneyEconomic']);
         //             Route::post('edit-economic-indecopi', [EconomicExpensesIndecopiController::class, 'editEconomic']);
         //             Route::post('delete-economic-indecopi', [EconomicExpensesIndecopiController::class, 'deleteEconomic']);
@@ -236,8 +241,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
         //             Route::post('delete-documentos-presentados-sinoe', [DocumentosPresentadosSinoeController::class, 'deleteDocument']);
         //             Route::post('get-all-documentos-presentados-sinoe', [DocumentosPresentadosSinoeController::class, 'getAllDocument']);
 
-        //             // ? Movimientos
-        //             Route::get('seguimientos-sinoe', [ExpedienteSinoeController::class, 'viewSeguimiento'])->name('sistema_expedientes.sinoe.viewSeguimiento');
+        // ? Movimientos
+        Route::get('/sinoe/seguimientos-sinoe', [ExpedienteSinoeController::class, 'viewSeguimiento']);
+        Route::get('/sinoe/seguimientos-sinoe/notify', [ExpedienteSinoeController::class, 'viewSeguimientoNotify']);
         //             Route::post('add-seguimiento-sinoe', [ExpedienteSinoeController::class, 'addFollowUp']);
         //             Route::post('update-seguimiento-sinoe', [ExpedienteSinoeController::class, 'updateFollowUp']);
         //             Route::post('delete-seguimiento-sinoe', [ExpedienteSinoeController::class, 'deleteFollowUp']);
@@ -265,7 +271,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         //             Route::post('delete-comment-sinoe', [ExpedienteSinoeController::class, 'deleteComment']);
 
         //             Route::post('add-economic-sinoe', [EconomicExpensesSinoeController::class, 'addEconomic']);
-        //             Route::post('get-economic-sinoe', [EconomicExpensesSinoeController::class, 'getAllEconomic']);
+        Route::get('/sinoe/get-economic', [EconomicExpensesSinoeController::class, 'getAllEconomic']);
         //             Route::post('get-money-economic-sinoe', [EconomicExpensesSinoeController::class, 'getAllMoneyEconomic']);
         //             Route::post('edit-economic-sinoe', [EconomicExpensesSinoeController::class, 'editEconomic']);
         //             Route::post('delete-economic-sinoe', [EconomicExpensesSinoeController::class, 'deleteEconomic']);

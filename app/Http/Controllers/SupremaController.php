@@ -347,6 +347,283 @@ class SupremaController extends Controller
     *
     */
 
+    /**
+     * Obtener seguimientos del Poder Judicial para un expediente específico
+     *
+     * @OA\Get(
+     *     path="/api/corte-suprema/seguimientos-corte-suprema",
+     *     tags={"Procesos CEJ SUPREMA"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="Exp",
+     *         in="query",
+     *         description="Número de expediente",
+     *         required=true,
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Seguimientos del expediente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="id", type="string", example="1"),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="n_expediente", type="string", example="01667-2022-0-1001-JR-CI-06"),
+     *                     @OA\Property(property="materia", type="string", example="DESALOJO"),
+     *                     @OA\Property(property="proceso", type="string", example="SUMARISIMO"),
+     *                     @OA\Property(property="lawyer_responsible", type="string", example="QUISPE CRUZ ZENILDA-EJECUCION"),
+     *                     @OA\Property(property="estado", type="string", example="ARCHIVO DEFINITIVO"),
+     *                     @OA\Property(property="sumilla", type="string", example="DEMANDA DE DESALOJO POR OCUPANTE PRECARIO RESTITUCIÓN DE LA HABITACIÓN"),
+     *                     @OA\Property(property="date_initial", type="string", example="2022-07-26"),
+     *                     @OA\Property(property="update_date", type="null"),
+     *                     @OA\Property(property="o_jurisdicional", type="string", example="6° JUZGADO CIVIL - SEDE CENTRAL"),
+     *                     @OA\Property(property="d_judicial", type="string", example="CUSCO"),
+     *                     @OA\Property(property="juez", type="string", example="LOPEZ TRELLES LUIS ALBERTO"),
+     *                     @OA\Property(property="observacion", type="string", example="SE PRESENTA ANEXOS EN COPIAS CERTIFICADAS Y SIMPLES"),
+     *                     @OA\Property(property="especialidad", type="string", example="CIVIL"),
+     *                     @OA\Property(property="e_procesal", type="string", example="GENERAL"),
+     *                     @OA\Property(property="date_conclusion", type="null"),
+     *                     @OA\Property(property="ubicacion", type="string", example="ARCHIVO GENERAL"),
+     *                     @OA\Property(property="motivo_conclusion", type="string", example="-------"),
+     *                     @OA\Property(property="name", type="null"),
+     *                     @OA\Property(property="last_name", type="null"),
+     *                     @OA\Property(property="name_company", type="string", example="demo"),
+     *                     @OA\Property(property="type_contact", type="string", example="Empresa"),
+     *                     @OA\Property(property="ruc", type="string", example="1234568790875746"),
+     *                     @OA\Property(property="email", type="string", example="{'email':'alnuawd@sagssdg.adgs','type_email':'Trabajo','email2':null,'type_email2':'Trabajo'}"),
+     *                     @OA\Property(property="phone", type="string", example="{'phone':'2354325','type_phone':'Trabajo','phone2':null,'type_phone2':'Trabajo'}"),
+     *                     @OA\Property(property="fecha_ingreso", type="string", example="2023-07-06 16:00:00"),
+     *                     @OA\Property(property="fecha_resolucion", type="null")
+     *                 )
+     *             ),
+     *             @OA\Property(property="movements", type="object",
+     *                 @OA\Property(property="current_page", type="integer", example=1),
+     *                 @OA\Property(property="data", type="array",
+     *                     @OA\Items(
+     *                         @OA\Property(property="id", type="integer", example=51),
+     *                         @OA\Property(property="n_seguimiento", type="integer", example=50),
+     *                         @OA\Property(property="fecha_ingreso", type="null"),
+     *                         @OA\Property(property="fecha_resolucion", type="string", example="2023-07-06"),
+     *                         @OA\Property(property="resolucion", type="string", example="s/n"),
+     *                         @OA\Property(property="type_notificacion", type="string", example="Pta. Cedula Not."),
+     *                         @OA\Property(property="acto", type="string", example="AUDIENCIA"),
+     *                         @OA\Property(property="folios", type="null"),
+     *                         @OA\Property(property="fojas", type="integer", example=1),
+     *                         @OA\Property(property="proveido", type="string", example="2023-07-06"),
+     *                         @OA\Property(property="obs_sumilla", type="string", example="AUDIENCIA - ACTA DE LANZAMIENTO ESTADO :CONCLUIDA"),
+     *                         @OA\Property(property="descripcion", type="string", example="DESCARGADO POR: HUILLCA HUARANCA PILAR"),
+     *                         @OA\Property(property="file", type="string", example="Las audiencias no se pueden visualizar por este medio."),
+     *                         @OA\Property(property="noti", type="null"),
+     *                         @OA\Property(property="abog_virtual", type="string", example="si"),
+     *                         @OA\Property(property="u_tipo", type="null"),
+     *                         @OA\Property(property="u_title", type="null"),
+     *                         @OA\Property(property="u_date", type="null"),
+     *                         @OA\Property(property="u_descripcion", type="null"),
+     *                         @OA\Property(property="metadata", type="null"),
+     *                         @OA\Property(property="documento", type="null"),
+     *                         @OA\Property(property="video", type="null"),
+     *                         @OA\Property(property="code_company", type="string", example="desarrollo"),
+     *                         @OA\Property(property="code_user", type="null"),
+     *                         @OA\Property(property="update_date", type="null"),
+     *                         @OA\Property(property="id_exp", type="integer", example=1),
+     *                         @OA\Property(property="created_at", type="string", example="2023-12-02T04:04:10.000000Z"),
+     *                         @OA\Property(property="updated_at", type="string", example="2023-12-02T04:04:10.000000Z")
+     *                     )
+     *                 ),
+     *                 @OA\Property(property="first_page_url", type="string", example="http://127.0.0.1:8000/api/poder-judicial/seguimientos?Exp=1&page=1"),
+     *                 @OA\Property(property="from", type="integer", example=1),
+     *                 @OA\Property(property="last_page", type="integer", example=11),
+     *                 @OA\Property(property="last_page_url", type="string", example="http://127.0.0.1:8000/api/poder-judicial/seguimientos?Exp=1&page=11"),
+     *                 @OA\Property(property="links", type="array",
+     *                     @OA\Items(
+     *                         @OA\Property(property="url", type="null"),
+     *                         @OA\Property(property="label", type="string", example="&laquo; Previous"),
+     *                         @OA\Property(property="active", type="boolean", example=false)
+     *                     ),
+     *                     @OA\Items(
+     *                         @OA\Property(property="url", type="string", example="http://127.0.0.1:8000/api/poder-judicial/seguimientos?Exp=1&page=2"),
+     *                         @OA\Property(property="label", type="string", example="Next &raquo;"),
+     *                         @OA\Property(property="active", type="boolean", example=false)
+     *                     )
+     *                 ),
+     *                 @OA\Property(property="next_page_url", type="string", example="http://127.0.0.1:8000/api/poder-judicial/seguimientos?Exp=1&page=2"),
+     *                 @OA\Property(property="path", type="string", example="http://127.0.0.1:8000/api/poder-judicial/seguimientos"),
+     *                 @OA\Property(property="per_page", type="integer", example=5),
+     *                 @OA\Property(property="prev_page_url", type="null"),
+     *                 @OA\Property(property="to", type="integer", example=5),
+     *                 @OA\Property(property="total", type="integer", example=54)
+     *             ),
+     *             @OA\Property(property="notify", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="name", type="string", example="NOTIFICACIÓN 2022-0086258-JR-CI"),
+     *                     @OA\Property(property="destinatario", type="string", example="VELARDE SANTOS TEOFILO JUVENAL"),
+     *                     @OA\Property(property="fecha_envio", type="string", example="2022-08-12 15:19:00"),
+     *                     @OA\Property(property="anexos", type="string", example="RES N° 01 (AUTO ADMISORIO)"),
+     *                     @OA\Property(property="forma_entrega", type="string", example=""),
+     *                     @OA\Property(property="abog_virtual", type="string", example="si"),
+     *                     @OA\Property(property="metadata", type="null"),
+     *                     @OA\Property(property="code_company", type="null"),
+     *                     @OA\Property(property="code_user", type="null"),
+     *                     @OA\Property(property="id_exp", type="integer", example=1),
+     *                     @OA\Property(property="created_at", type="string", example="2023-12-02T04:04:05.000000Z"),
+     *                     @OA\Property(property="updated_at", type="string", example="2023-12-02T04:04:05.000000Z")
+     *                 )
+     *             ),
+     *             @OA\Property(property="comments", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="comment", type="string", example="QASDFGHJ"),
+     *                     @OA\Property(property="code_user", type="string", example="Temis-1"),
+     *                     @OA\Property(property="code_company", type="string", example="desarrollo"),
+     *                     @OA\Property(property="id_exp", type="integer", example=1),
+     *                     @OA\Property(property="id_user", type="integer", example=1),
+     *                     @OA\Property(property="id_follow_up", type="integer", example=49),
+     *                     @OA\Property(property="id_notify", type="integer", example=88),
+     *                     @OA\Property(property="date", type="string", example="2023-12-21 20:39:08"),
+     *                     @OA\Property(property="type", type="string", example="Notificación"),
+     *                     @OA\Property(property="metadata", type="null"),
+     *                     @OA\Property(property="created_at", type="null"),
+     *                     @OA\Property(property="updated_at", type="null")
+     *                 )
+     *             ),
+     *             @OA\Property(property="workFlowTaskExpediente", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="id_workflow", type="integer", example=1),
+     *                     @OA\Property(property="id_workflow_stage", type="integer", example=1),
+     *                     @OA\Property(property="id_workflow_task", type="integer", example=1),
+     *                     @OA\Property(property="id_exp", type="integer", example=1),
+     *                     @OA\Property(property="nombre_etapa", type="string", example="responsabilidad"),
+     *                     @OA\Property(property="nombre_flujo", type="string", example="Demanda de divorcio"),
+     *                     @OA\Property(property="nombre", type="string", example="tareaa"),
+     *                     @OA\Property(property="descripcion", type="string", example="responsabilidad de todos"),
+     *                     @OA\Property(property="dias_duracion", type="integer", example=6),
+     *                     @OA\Property(property="dias_antes_venc", type="integer", example=4),
+     *                     @OA\Property(property="fecha_limite", type="string", example="2023-12-27"),
+     *                     @OA\Property(property="fecha_alerta", type="string", example="2023-12-25"),
+     *                     @OA\Property(property="fecha_finalizada", type="null"),
+     *                     @OA\Property(property="attached_files", type="null"),
+     *                     @OA\Property(property="estado", type="string", example="En progreso"),
+     *                     @OA\Property(property="prioridad", type="string", example="Baja"),
+     *                     @OA\Property(property="code_user", type="string", example="Temis-1"),
+     *                     @OA\Property(property="code_company", type="string", example="desarrollo"),
+     *                     @OA\Property(property="metadata", type="null"),
+     *                     @OA\Property(property="created_at", type="string", example="2023-12-21T15:50:06.000000Z"),
+     *                     @OA\Property(property="updated_at", type="string", example="2023-12-21T15:50:06.000000Z")
+     *                 ),
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=4),
+     *                     @OA\Property(property="id_workflow", type="integer", example=1),
+     *                     @OA\Property(property="id_workflow_stage", type="integer", example=1),
+     *                     @OA\Property(property="id_workflow_task", type="integer", example=3),
+     *                     @OA\Property(property="id_exp", type="integer", example=1),
+     *                     @OA\Property(property="nombre_etapa", type="string", example="responsabilidad"),
+     *                     @OA\Property(property="nombre_flujo", type="string", example="Demanda de divorcio"),
+     *                     @OA\Property(property="nombre", type="string", example="qwerty"),
+     *                     @OA\Property(property="descripcion", type="string", example="asdasd"),
+     *                     @OA\Property(property="dias_duracion", type="integer", example=8),
+     *                     @OA\Property(property="dias_antes_venc", type="integer", example=5),
+     *                     @OA\Property(property="fecha_limite", type="string", example="2024-01-28"),
+     *                     @OA\Property(property="fecha_alerta", type="string", example="2024-01-25"),
+     *                     @OA\Property(property="fecha_finalizada", type="null"),
+     *                     @OA\Property(property="attached_files", type="null"),
+     *                     @OA\Property(property="estado", type="string", example="En progreso"),
+     *                     @OA\Property(property="prioridad", type="string", example="Media"),
+     *                     @OA\Property(property="code_user", type="string", example="Temis-1"),
+     *                     @OA\Property(property="code_company", type="string", example="desarrollo"),
+     *                     @OA\Property(property="metadata", type="null"),
+     *                     @OA\Property(property="created_at", type="string", example="2024-01-21T01:11:23.000000Z"),
+     *                     @OA\Property(property="updated_at", type="string", example="2024-01-21T01:11:23.000000Z")
+     *                 )
+     *             ),
+     *             @OA\Property(property="groupStages", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=4),
+     *                     @OA\Property(property="id_workflow", type="integer", example=1),
+     *                     @OA\Property(property="id_workflow_stage", type="integer", example=1),
+     *                     @OA\Property(property="id_workflow_task", type="integer", example=3),
+     *                     @OA\Property(property="id_exp", type="integer", example=1),
+     *                     @OA\Property(property="nombre_etapa", type="string", example="responsabilidad"),
+     *                     @OA\Property(property="nombre_flujo", type="string", example="Demanda de divorcio"),
+     *                     @OA\Property(property="nombre", type="string", example="qwerty"),
+     *                     @OA\Property(property="descripcion", type="string", example="asdasd"),
+     *                     @OA\Property(property="dias_duracion", type="integer", example=8),
+     *                     @OA\Property(property="dias_antes_venc", type="integer", example=5),
+     *                     @OA\Property(property="fecha_limite", type="string", example="2024-01-28"),
+     *                     @OA\Property(property="fecha_alerta", type="string", example="2024-01-25"),
+     *                     @OA\Property(property="fecha_finalizada", type="null"),
+     *                     @OA\Property(property="attached_files", type="null"),
+     *                     @OA\Property(property="estado", type="string", example="En progreso"),
+     *                     @OA\Property(property="prioridad", type="string", example="Media"),
+     *                     @OA\Property(property="code_user", type="string", example="Temis-1"),
+     *                     @OA\Property(property="code_company", type="string", example="desarrollo"),
+     *                     @OA\Property(property="metadata", type="null"),
+     *                     @OA\Property(property="created_at", type="string", example="2024-01-21T01:11:23.000000Z"),
+     *                     @OA\Property(property="updated_at", type="string", example="2024-01-21T01:11:23.000000Z")
+     *                 )
+     *             ),
+     *             @OA\Property(property="estadoFlujoCount", type="integer", example=1),
+     *             @OA\Property(property="sumAll", type="integer", example=3),
+     *             @OA\Property(property="sumAllCheck", type="integer", example=0),
+     *             @OA\Property(property="stageCountEnProgreso", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="id_workflow", type="integer", example=1),
+     *                     @OA\Property(property="id_workflow_stage", type="integer", example=1),
+     *                     @OA\Property(property="id_workflow_task", type="integer", example=1),
+     *                     @OA\Property(property="id_exp", type="integer", example=1),
+     *                     @OA\Property(property="nombre_etapa", type="string", example="responsabilidad"),
+     *                     @OA\Property(property="nombre_flujo", type="string", example="Demanda de divorcio"),
+     *                     @OA\Property(property="nombre", type="string", example="tareaa"),
+     *                     @OA\Property(property="descripcion", type="string", example="responsabilidad de todos"),
+     *                     @OA\Property(property="dias_duracion", type="integer", example=6),
+     *                     @OA\Property(property="dias_antes_venc", type="integer", example=4),
+     *                     @OA\Property(property="fecha_limite", type="string", example="2023-12-27"),
+     *                     @OA\Property(property="fecha_alerta", type="string", example="2023-12-25"),
+     *                     @OA\Property(property="fecha_finalizada", type="null"),
+     *                     @OA\Property(property="attached_files", type="null"),
+     *                     @OA\Property(property="estado", type="string", example="En progreso"),
+     *                     @OA\Property(property="prioridad", type="string", example="Baja"),
+     *                     @OA\Property(property="code_user", type="string", example="Temis-1"),
+     *                     @OA\Property(property="code_company", type="string", example="desarrollo"),
+     *                     @OA\Property(property="metadata", type="null"),
+     *                     @OA\Property(property="created_at", type="string", example="2023-12-21T15:50:06.000000Z"),
+     *                     @OA\Property(property="updated_at", type="string", example="2023-12-21T15:50:06.000000Z")
+     *                 )
+     *             ),
+     *             @OA\Property(property="stageCountConcluida", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=4),
+     *                     @OA\Property(property="id_workflow", type="integer", example=1),
+     *                     @OA\Property(property="id_workflow_stage", type="integer", example=1),
+     *                     @OA\Property(property="id_workflow_task", type="integer", example=3),
+     *                     @OA\Property(property="id_exp", type="integer", example=1),
+     *                     @OA\Property(property="nombre_etapa", type="string", example="responsabilidad"),
+     *                     @OA\Property(property="nombre_flujo", type="string", example="Demanda de divorcio"),
+     *                     @OA\Property(property="nombre", type="string", example="qwerty"),
+     *                     @OA\Property(property="descripcion", type="string", example="asdasd"),
+     *                     @OA\Property(property="dias_duracion", type="integer", example=8),
+     *                     @OA\Property(property="dias_antes_venc", type="integer", example=5),
+     *                     @OA\Property(property="fecha_limite", type="string", example="2024-01-28"),
+     *                     @OA\Property(property="fecha_alerta", type="string", example="2024-01-25"),
+     *                     @OA\Property(property="fecha_finalizada", type="null"),
+     *                     @OA\Property(property="attached_files", type="null"),
+     *                     @OA\Property(property="estado", type="string", example="En progreso"),
+     *                     @OA\Property(property="prioridad", type="string", example="Media"),
+     *                     @OA\Property(property="code_user", type="string", example="Temis-1"),
+     *                     @OA\Property(property="code_company", type="string", example="desarrollo"),
+     *                     @OA\Property(property="metadata", type="null"),
+     *                     @OA\Property(property="created_at", type="string", example="2024-01-21T01:11:23.000000Z"),
+     *                     @OA\Property(property="updated_at", type="string", example="2024-01-21T01:11:23.000000Z")
+     *                 )
+     *             )
+     *         )
+     *     )
+     * )
+     */
+
     public function viewAcciones(Request $request)
     {
 
@@ -398,9 +675,16 @@ class SupremaController extends Controller
                 ->get();
 
             //withQueryString() => mantener el query
-            $movements = SeguimientoSuprema::where('id_exp', $id)
-                ->where('code_company', $dataUser->code_company)
-                ->orderBy('id', 'desc')
+            // $movements = SeguimientoSuprema::where('id_exp', $id)
+            //     ->where('code_company', $dataUser->code_company)
+            //     ->orderBy('id', 'desc')
+            //     ->paginate(5)
+            //     ->withQueryString();
+            $movements = SeguimientoSuprema::select('seguimiento_supremas.*', 'users.name', 'users.lastname')
+                ->leftJoin('users', 'seguimiento_supremas.code_user', '=', 'users.code_user')
+                ->where('seguimiento_supremas.id_exp', $id)
+                ->where('seguimiento_supremas.code_company', $dataUser->code_company)
+                ->orderBy('seguimiento_supremas.id', 'desc')
                 ->paginate(5)
                 ->withQueryString();
 
@@ -429,7 +713,11 @@ class SupremaController extends Controller
             $sumAllCheck = $countCheck + $countAllTaskCheck;
         }
 
-        return view('dashboard.sistema_expedientes.suprema.seguimientos', compact('id', 'data', 'movements', 'comments', 'workFlowTaskExpediente', 'groupStages', 'estadoFlujoCount', 'vistaCausaSuprema', 'sumAll', 'sumAllCheck'));
+        // return view('dashboard.sistema_expedientes.suprema.seguimientos', compact('id', 'data', 'movements', 'comments', 'workFlowTaskExpediente', 'groupStages', 'estadoFlujoCount', 'vistaCausaSuprema', 'sumAll', 'sumAllCheck'));
+
+        return response()->json([
+            'movements' => $movements,
+        ], 200);
     }
 
 

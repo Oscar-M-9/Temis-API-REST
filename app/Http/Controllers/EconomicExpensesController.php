@@ -121,6 +121,58 @@ class EconomicExpensesController extends Controller
         return response()->json("Eliminado");
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/poder-judicial/get-economic",
+     *     tags={"Procesos CEJ JUDICIAL"},
+     *     summary="Obtener información económica de un expediente",
+     *     description="Obtiene información económica asociada a un expediente del Poder Judicial.",
+     *     operationId="getEconomic",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="idExp",
+     *         in="query",
+     *         description="ID del expediente",
+     *         example=1,
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Información económica obtenida correctamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="economic",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=4),
+     *                     @OA\Property(property="type", type="string", example="Recaudaciones"),
+     *                     @OA\Property(property="date_time", type="string", example="2023-12-09 12:25:00"),
+     *                     @OA\Property(property="moneda", type="string", example="Sol"),
+     *                     @OA\Property(property="mount", type="integer", example=100),
+     *                     @OA\Property(property="titulo", type="string", example="Comision de retraso"),
+     *                     @OA\Property(property="descripcion", type="string", example="asdfasd"),
+     *                     @OA\Property(property="status", type="string", example="Si"),
+     *                     @OA\Property(property="attached_files", type="string", example="[]"),
+     *                     @OA\Property(property="metadata", type="null"),
+     *                     @OA\Property(property="code_user", type="string", example="Temis-1"),
+     *                     @OA\Property(property="code_company", type="string", example="desarrollo"),
+     *                     @OA\Property(property="id_exp", type="integer", example=1),
+     *                     @OA\Property(property="entidad", type="string", example="CEJ por Código de Expediente")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Expediente no encontrado"
+     *     )
+     * )
+     */
+
     public function getAllEconomic()
     {
         $idExp = request()->input('idExp');
@@ -147,7 +199,9 @@ class EconomicExpensesController extends Controller
             ->where('economic_expenses.code_company', $dataUser->code_company)
             ->where('economic_expenses.id_exp', $idExp)
             ->get();
-        return response()->json($economic);
+        return response()->json([
+            'economic' => $economic,
+        ]);
     }
 
     public function getAllMoneyEconomic()
