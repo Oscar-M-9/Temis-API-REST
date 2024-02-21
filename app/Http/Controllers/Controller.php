@@ -14,7 +14,8 @@ use Illuminate\Routing\Controller as BaseController;
  *             description="Mostando la Lista de URI's de mi API"
  * )
  *
- * @OA\Server(url="http://127.0.0.1:8000/")
+ * @OA\Server(url="http://127.0.0.1:8000/"),
+ * @OA\Server(url="https://api.temisperu.com/"),
  *
  *
  * @OA\SecurityScheme(
