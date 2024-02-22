@@ -359,7 +359,8 @@ trait AuthenticatesUsers
     {
         // Revocar todos los tokens asociados al usuario
         $user = auth()->user();
-        auth()->user()->tokens()->delete();
+        // auth()->user()->tokens()->delete();
+        $user->currentAccessToken()->delete();
 
         return response()->json([
             "status" => true,
