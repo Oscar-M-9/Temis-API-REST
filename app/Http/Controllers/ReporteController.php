@@ -67,7 +67,7 @@ class ReporteController extends Controller
 
         foreach ($historialAll as $key => $value) {
             // ? Indecopi
-            if ($value->entidad == 'indecopi') {
+            if ($value->entidad == 'indecopi' || $value->entidad == 'Indecopi') {
                 $dataIndecopi = Indecopi::where('id', $value->id_exp)->where('code_company', Auth::user()->code_company)->first();
                 $dataMovimiento = AccionesIndecopi::where('id', $value->id_movimiento)->where('code_company', Auth::user()->code_company)->first();
                 $dataCliente = Cliente::where('id', $value->id_client)->where('code_company', Auth::user()->code_company)->first();
@@ -91,7 +91,7 @@ class ReporteController extends Controller
                 ];
             }
             // ? CEJ Judicial
-            if ($value->entidad == 'judicial') {
+            if ($value->entidad == 'judicial' || $value->entidad == 'CEJ Judicial') {
                 $dataExp = Expedientes::where('id', $value->id_exp)->where('code_company', Auth::user()->code_company)->first();
                 $dataMovimiento = FollowUp::where('id', $value->id_movimiento)->where('code_company', Auth::user()->code_company)->first();
                 $dataCliente = Cliente::where('id', $value->id_client)->where('code_company', Auth::user()->code_company)->first();
@@ -115,7 +115,7 @@ class ReporteController extends Controller
                 ];
             }
             // ? CEJ suprema
-            if ($value->entidad == 'suprema') {
+            if ($value->entidad == 'suprema' || $value->entidad == 'CEJ Suprema') {
                 $dataExp = CorteSuprema::where('id', $value->id_exp)->where('code_company', Auth::user()->code_company)->first();
                 $dataMovimiento = SeguimientoSuprema::where('id', $value->id_movimiento)->where('code_company', Auth::user()->code_company)->first();
                 $dataCliente = Cliente::where('id', $value->id_client)->where('code_company', Auth::user()->code_company)->first();
@@ -139,7 +139,7 @@ class ReporteController extends Controller
                 ];
             }
             // ? Sinoe
-            if ($value->entidad == 'sinoe') {
+            if ($value->entidad == 'sinoe' || $value->entidad == 'Sinoe') {
                 $dataExp = ExpedienteSinoe::where('id', $value->id_exp)->where('code_company', Auth::user()->code_company)->first();
                 $dataMovimiento = NotificationSinoe::where('id', $value->id_movimiento)->where('code_company', Auth::user()->code_company)->first();
                 $dataCliente = Cliente::where('id', $value->id_client)->where('code_company', Auth::user()->code_company)->first();
