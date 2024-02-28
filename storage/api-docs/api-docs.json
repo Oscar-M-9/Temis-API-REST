@@ -8557,6 +8557,357 @@
                     }
                 ]
             }
+        },
+        "/api/poder-judicial/task": {
+            "get": {
+                "tags": [
+                    "Procesos CEJ JUDICIAL"
+                ],
+                "summary": "Obtener tareas de un expediente",
+                "description": "Obtiene las tareas asociadas a un expediente del Poder Judicial.",
+                "operationId": "getTasks",
+                "parameters": [
+                    {
+                        "name": "Exp",
+                        "in": "query",
+                        "description": "ID del expediente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tareas obtenidas correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "workFlowTaskExpediente": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "id_workflow": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "id_workflow_stage": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "id_workflow_task": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "id_exp": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "nombre_etapa": {
+                                                        "type": "string",
+                                                        "example": "responsabilidad"
+                                                    },
+                                                    "nombre_flujo": {
+                                                        "type": "string",
+                                                        "example": "Demanda de divorcio"
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "example": "tareaa"
+                                                    },
+                                                    "descripcion": {
+                                                        "type": "string",
+                                                        "example": "responsabilidad de todos"
+                                                    },
+                                                    "dias_duracion": {
+                                                        "type": "integer",
+                                                        "example": 6
+                                                    },
+                                                    "dias_antes_venc": {
+                                                        "type": "integer",
+                                                        "example": 4
+                                                    },
+                                                    "fecha_limite": {
+                                                        "type": "string",
+                                                        "example": "2023-12-27"
+                                                    },
+                                                    "fecha_alerta": {
+                                                        "type": "string",
+                                                        "example": "2023-12-25"
+                                                    },
+                                                    "fecha_finalizada": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "attached_files": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "estado": {
+                                                        "type": "string",
+                                                        "example": "En progreso"
+                                                    },
+                                                    "prioridad": {
+                                                        "type": "string",
+                                                        "example": "Baja"
+                                                    },
+                                                    "code_user": {
+                                                        "type": "string",
+                                                        "example": "Temis-1"
+                                                    },
+                                                    "code_company": {
+                                                        "type": "string",
+                                                        "example": "desarrollo"
+                                                    },
+                                                    "metadata": {
+                                                        "type": "null"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2023-12-21T15:50:06.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2023-12-21T15:50:06.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "groupStages": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 4
+                                                    },
+                                                    "id_workflow": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "id_workflow_stage": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "id_workflow_task": {
+                                                        "type": "integer",
+                                                        "example": 3
+                                                    },
+                                                    "id_exp": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "nombre_etapa": {
+                                                        "type": "string",
+                                                        "example": "responsabilidad"
+                                                    },
+                                                    "nombre_flujo": {
+                                                        "type": "string",
+                                                        "example": "Demanda de divorcio"
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "example": "qwerty"
+                                                    },
+                                                    "descripcion": {
+                                                        "type": "string",
+                                                        "example": "asdasd"
+                                                    },
+                                                    "dias_duracion": {
+                                                        "type": "integer",
+                                                        "example": 8
+                                                    },
+                                                    "dias_antes_venc": {
+                                                        "type": "integer",
+                                                        "example": 5
+                                                    },
+                                                    "fecha_limite": {
+                                                        "type": "string",
+                                                        "example": "2024-01-28"
+                                                    },
+                                                    "fecha_alerta": {
+                                                        "type": "string",
+                                                        "example": "2024-01-25"
+                                                    },
+                                                    "fecha_finalizada": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "attached_files": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "estado": {
+                                                        "type": "string",
+                                                        "example": "En progreso"
+                                                    },
+                                                    "prioridad": {
+                                                        "type": "string",
+                                                        "example": "Media"
+                                                    },
+                                                    "code_user": {
+                                                        "type": "string",
+                                                        "example": "Temis-1"
+                                                    },
+                                                    "code_company": {
+                                                        "type": "string",
+                                                        "example": "desarrollo"
+                                                    },
+                                                    "metadata": {
+                                                        "type": "null"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2024-01-21T01:11:23.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2024-01-21T01:11:23.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "estadoFlujoCount": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "sumAll": {
+                                            "type": "integer",
+                                            "example": 3
+                                        },
+                                        "sumAllCheck": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "stageCountEnProgreso": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "id_workflow": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "id_workflow_stage": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "id_workflow_task": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "id_exp": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "nombre_etapa": {
+                                                        "type": "string",
+                                                        "example": "responsabilidad"
+                                                    },
+                                                    "nombre_flujo": {
+                                                        "type": "string",
+                                                        "example": "Demanda de divorcio"
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "example": "tareaa"
+                                                    },
+                                                    "descripcion": {
+                                                        "type": "string",
+                                                        "example": "responsabilidad de todos"
+                                                    },
+                                                    "dias_duracion": {
+                                                        "type": "integer",
+                                                        "example": 6
+                                                    },
+                                                    "dias_antes_venc": {
+                                                        "type": "integer",
+                                                        "example": 4
+                                                    },
+                                                    "fecha_limite": {
+                                                        "type": "string",
+                                                        "example": "2023-12-27"
+                                                    },
+                                                    "fecha_alerta": {
+                                                        "type": "string",
+                                                        "example": "2023-12-25"
+                                                    },
+                                                    "fecha_finalizada": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "attached_files": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "estado": {
+                                                        "type": "string",
+                                                        "example": "En progreso"
+                                                    },
+                                                    "prioridad": {
+                                                        "type": "string",
+                                                        "example": "Baja"
+                                                    },
+                                                    "code_user": {
+                                                        "type": "string",
+                                                        "example": "Temis-1"
+                                                    },
+                                                    "code_company": {
+                                                        "type": "string",
+                                                        "example": "desarrollo"
+                                                    },
+                                                    "metadata": {
+                                                        "type": "null"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2023-12-21T15:50:06.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2023-12-21T15:50:06.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "TaskFlujoFinalizado": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "TaskFinalizado": {
+                                            "type": "integer",
+                                            "example": 0
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado"
+                    },
+                    "404": {
+                        "description": "Expediente no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {

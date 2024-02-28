@@ -88,6 +88,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         // ? Movimientos
         Route::get('/poder-judicial/seguimientos', [ExpedientesController::class, 'viewSeguimiento']);
+        Route::get('/poder-judicial/task', [ExpedientesController::class, 'viewTaskProceso']);
         //             Route::post('add-seguimiento', [ExpedientesController::class, 'addFollowUp']);
         //             Route::post('/guardar-video', [App\Http\Controllers\dashboard\ExpedientesController::class, 'guardarVideo']);
         //             Route::post('update-seguimiento', [App\Http\Controllers\dashboard\ExpedientesController::class, 'updateFollowUp']);

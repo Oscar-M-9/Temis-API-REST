@@ -2287,6 +2287,194 @@ class ExpedientesController extends Controller
         ], 200);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/poder-judicial/task",
+     *     tags={"Procesos CEJ JUDICIAL"},
+     *     summary="Obtener tareas de un expediente",
+     *     description="Obtiene las tareas asociadas a un expediente del Poder Judicial.",
+     *     operationId="getTasks",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="Exp",
+     *         in="query",
+     *         description="ID del expediente",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Tareas obtenidas correctamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="workFlowTaskExpediente",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="id_workflow", type="integer", example=1),
+     *                     @OA\Property(property="id_workflow_stage", type="integer", example=1),
+     *                     @OA\Property(property="id_workflow_task", type="integer", example=1),
+     *                     @OA\Property(property="id_exp", type="integer", example=1),
+     *                     @OA\Property(property="nombre_etapa", type="string", example="responsabilidad"),
+     *                     @OA\Property(property="nombre_flujo", type="string", example="Demanda de divorcio"),
+     *                     @OA\Property(property="nombre", type="string", example="tareaa"),
+     *                     @OA\Property(property="descripcion", type="string", example="responsabilidad de todos"),
+     *                     @OA\Property(property="dias_duracion", type="integer", example=6),
+     *                     @OA\Property(property="dias_antes_venc", type="integer", example=4),
+     *                     @OA\Property(property="fecha_limite", type="string", example="2023-12-27"),
+     *                     @OA\Property(property="fecha_alerta", type="string", example="2023-12-25"),
+     *                     @OA\Property(property="fecha_finalizada", type="string", example=null),
+     *                     @OA\Property(property="attached_files", type="string", example=null),
+     *                     @OA\Property(property="estado", type="string", example="En progreso"),
+     *                     @OA\Property(property="prioridad", type="string", example="Baja"),
+     *                     @OA\Property(property="code_user", type="string", example="Temis-1"),
+     *                     @OA\Property(property="code_company", type="string", example="desarrollo"),
+     *                     @OA\Property(property="metadata", type="null"),
+     *                     @OA\Property(property="created_at", type="string", example="2023-12-21T15:50:06.000000Z"),
+     *                     @OA\Property(property="updated_at", type="string", example="2023-12-21T15:50:06.000000Z")
+     *                 )
+     *             ),
+     *             @OA\Property(
+     *                 property="groupStages",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=4),
+     *                     @OA\Property(property="id_workflow", type="integer", example=1),
+     *                     @OA\Property(property="id_workflow_stage", type="integer", example=1),
+     *                     @OA\Property(property="id_workflow_task", type="integer", example=3),
+     *                     @OA\Property(property="id_exp", type="integer", example=1),
+     *                     @OA\Property(property="nombre_etapa", type="string", example="responsabilidad"),
+     *                     @OA\Property(property="nombre_flujo", type="string", example="Demanda de divorcio"),
+     *                     @OA\Property(property="nombre", type="string", example="qwerty"),
+     *                     @OA\Property(property="descripcion", type="string", example="asdasd"),
+     *                     @OA\Property(property="dias_duracion", type="integer", example=8),
+     *                     @OA\Property(property="dias_antes_venc", type="integer", example=5),
+     *                     @OA\Property(property="fecha_limite", type="string", example="2024-01-28"),
+     *                     @OA\Property(property="fecha_alerta", type="string", example="2024-01-25"),
+     *                     @OA\Property(property="fecha_finalizada", type="string", example=null),
+     *                     @OA\Property(property="attached_files", type="string", example=null),
+     *                     @OA\Property(property="estado", type="string", example="En progreso"),
+     *                     @OA\Property(property="prioridad", type="string", example="Media"),
+     *                     @OA\Property(property="code_user", type="string", example="Temis-1"),
+     *                     @OA\Property(property="code_company", type="string", example="desarrollo"),
+     *                     @OA\Property(property="metadata", type="null"),
+     *                     @OA\Property(property="created_at", type="string", example="2024-01-21T01:11:23.000000Z"),
+     *                     @OA\Property(property="updated_at", type="string", example="2024-01-21T01:11:23.000000Z")
+     *                 )
+     *             ),
+     *             @OA\Property(property="estadoFlujoCount", type="integer", example=1),
+     *             @OA\Property(property="sumAll", type="integer", example=3),
+     *             @OA\Property(property="sumAllCheck", type="integer", example=0),
+     *             @OA\Property(
+     *                 property="stageCountEnProgreso",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="id_workflow", type="integer", example=1),
+     *                     @OA\Property(property="id_workflow_stage", type="integer", example=1),
+     *                     @OA\Property(property="id_workflow_task", type="integer", example=1),
+     *                     @OA\Property(property="id_exp", type="integer", example=1),
+     *                     @OA\Property(property="nombre_etapa", type="string", example="responsabilidad"),
+     *                     @OA\Property(property="nombre_flujo", type="string", example="Demanda de divorcio"),
+     *                     @OA\Property(property="nombre", type="string", example="tareaa"),
+     *                     @OA\Property(property="descripcion", type="string", example="responsabilidad de todos"),
+     *                     @OA\Property(property="dias_duracion", type="integer", example=6),
+     *                     @OA\Property(property="dias_antes_venc", type="integer", example=4),
+     *                     @OA\Property(property="fecha_limite", type="string", example="2023-12-27"),
+     *                     @OA\Property(property="fecha_alerta", type="string", example="2023-12-25"),
+     *                     @OA\Property(property="fecha_finalizada", type="string", example=null),
+     *                     @OA\Property(property="attached_files", type="string", example=null),
+     *                     @OA\Property(property="estado", type="string", example="En progreso"),
+     *                     @OA\Property(property="prioridad", type="string", example="Baja"),
+     *                     @OA\Property(property="code_user", type="string", example="Temis-1"),
+     *                     @OA\Property(property="code_company", type="string", example="desarrollo"),
+     *                     @OA\Property(property="metadata", type="null"),
+     *                     @OA\Property(property="created_at", type="string", example="2023-12-21T15:50:06.000000Z"),
+     *                     @OA\Property(property="updated_at", type="string", example="2023-12-21T15:50:06.000000Z")
+     *                 )
+     *             ),
+     *             @OA\Property(property="TaskFlujoFinalizado", type="integer", example=0),
+     *             @OA\Property(property="TaskFinalizado", type="integer", example=0)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autorizado"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Expediente no encontrado"
+     *     )
+     * )
+     */
+
+    public function viewTaskProceso(Request $request)
+    {
+
+        $id = request()->input('Exp');
+
+        if ($id) {
+
+            $groupStages = WorkFlowTaskExpediente::select('w1.*')
+                ->from('work_flow_task_expedientes AS w1')
+                ->join(DB::raw('(SELECT MAX(id) AS max_id, id_workflow_stage
+                FROM work_flow_task_expedientes
+                WHERE id_exp = ' . $id . '
+                GROUP BY id_workflow_stage) AS max_ids'), function ($join) {
+                    $join->on('w1.id', '=', 'max_ids.max_id')
+                        ->on('w1.id_workflow_stage', '=', 'max_ids.id_workflow_stage');
+                })
+                ->where('w1.id_exp', $id)
+                ->get();
+
+            $stageCountEnProgreso = WorkFlowTaskExpediente::select('w1.*')
+                ->from('work_flow_task_expedientes AS w1')
+                ->join(DB::raw('(SELECT MAX(id) AS max_id, id_workflow_task
+                FROM work_flow_task_expedientes
+                WHERE id_exp = ' . $id . '
+                AND estado = "En progreso"
+                GROUP BY id_workflow_task) AS max_ids'), function ($join) {
+                    $join->on('w1.id', '=', 'max_ids.max_id')
+                        ->on('w1.id_workflow_task', '=', 'max_ids.id_workflow_task');
+                })
+                ->where('w1.id_exp', $id)
+                ->get();
+
+
+
+            $estadoFlujoCount = FlujoAsociadoExpediente::where('id_exp', $id)->where('table_pertenece', 'flujo')->count();
+            $workFlowTaskExpediente = WorkFlowTaskExpediente::where('id_exp', $id)->get();
+
+            $countAll = WorkFlowTaskExpediente::where('id_exp', $id)->count();
+            $countCheck = WorkFlowTaskExpediente::where('id_exp', $id)->where('metadata', 'finalizado')->count();
+            $countAllTask = TaskExpediente::where('id_exp', $id)->count();
+            $countAllTaskCheck = TaskExpediente::where('id_exp', $id)->where('metadata', 'finalizado')->count();
+
+            // TOTAL
+            $sumAll = $countAll + $countAllTask;
+            // TOTAL AVANZADO
+            $sumAllCheck = $countCheck + $countAllTaskCheck;
+            $TaskFinalizado = $countAllTaskCheck;
+            $TaskFlujoFinalizado = $countCheck;
+        }
+
+
+        return response()->json([
+            'workFlowTaskExpediente' => $workFlowTaskExpediente,
+            'groupStages' => $groupStages,
+            'estadoFlujoCount' => $estadoFlujoCount,
+            'sumAll' => $sumAll,
+            'sumAllCheck' => $sumAllCheck,
+            'stageCountEnProgreso' => $stageCountEnProgreso,
+            'TaskFlujoFinalizado' => $TaskFlujoFinalizado,
+            'TaskFinalizado' => $TaskFinalizado,
+        ], 200);
+    }
+
+
     public function guardarVideo(Request $request)
     {
         // Obtén el Blob del video enviado desde el cliente
