@@ -2397,7 +2397,32 @@ class ExpedientesController extends Controller
      *                 )
      *             ),
      *             @OA\Property(property="TaskFlujoFinalizado", type="integer", example=0),
-     *             @OA\Property(property="TaskFinalizado", type="integer", example=0)
+     *             @OA\Property(property="TaskFinalizado", type="integer", example=0),
+     *             @OA\Property(
+     *                 property="taskExpediente",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="flujo_activo", type="string", example="no"),
+     *                     @OA\Property(property="id_tarea_flujo", type="integer", example=null),
+     *                     @OA\Property(property="etapa_flujo", type="string", example=null),
+     *                     @OA\Property(property="transicion_flujo", type="string", example=null),
+     *                     @OA\Property(property="data_flujo", type="string", example="null"),
+     *                     @OA\Property(property="id_exp", type="integer", example=1),
+     *                     @OA\Property(property="nombre", type="string", example="tareaa"),
+     *                     @OA\Property(property="descripcion", type="string", example="responsabilidad de todos"),
+     *                     @OA\Property(property="prioridad", type="string", example="Alta"),
+     *                     @OA\Property(property="estado", type="string", example="En progreso"),
+     *                     @OA\Property(property="fecha_limite", type="string", example="2023-12-27"),
+     *                     @OA\Property(property="fecha_alerta", type="string", example="2023-12-25"),
+     *                     @OA\Property(property="fecha_finalizada", type="string", example=null),
+     *                     @OA\Property(property="code_user", type="string", example="Temis-1"),
+     *                     @OA\Property(property="code_company", type="string", example="desarrollo"),
+     *                     @OA\Property(property="metadata", type="null"),
+     *                     @OA\Property(property="created_at", type="string", example="2023-12-21T15:50:06.000000Z"),
+     *                     @OA\Property(property="updated_at", type="string", example="2023-12-21T15:50:06.000000Z"),
+     *                 )
+     *             ),
      *         )
      *     ),
      *     @OA\Response(
@@ -2459,6 +2484,11 @@ class ExpedientesController extends Controller
             $sumAllCheck = $countCheck + $countAllTaskCheck;
             $TaskFinalizado = $countAllTaskCheck;
             $TaskFlujoFinalizado = $countCheck;
+
+            $taskExpediente = TaskExpediente::where('flujo_activo', 'no')
+                ->where('id_exp', $id)
+                ->orderBy('fecha_limite')
+                ->get();
         }
 
 
@@ -2471,6 +2501,7 @@ class ExpedientesController extends Controller
             'stageCountEnProgreso' => $stageCountEnProgreso,
             'TaskFlujoFinalizado' => $TaskFlujoFinalizado,
             'TaskFinalizado' => $TaskFinalizado,
+            'taskExpediente' => $taskExpediente,
         ], 200);
     }
 

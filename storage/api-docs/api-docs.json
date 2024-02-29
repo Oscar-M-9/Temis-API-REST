@@ -8888,6 +8888,89 @@
                                         "TaskFinalizado": {
                                             "type": "integer",
                                             "example": 0
+                                        },
+                                        "taskExpediente": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "flujo_activo": {
+                                                        "type": "string",
+                                                        "example": "no"
+                                                    },
+                                                    "id_tarea_flujo": {
+                                                        "type": "integer",
+                                                        "example": null
+                                                    },
+                                                    "etapa_flujo": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "transicion_flujo": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "data_flujo": {
+                                                        "type": "string",
+                                                        "example": "null"
+                                                    },
+                                                    "id_exp": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "example": "tareaa"
+                                                    },
+                                                    "descripcion": {
+                                                        "type": "string",
+                                                        "example": "responsabilidad de todos"
+                                                    },
+                                                    "prioridad": {
+                                                        "type": "string",
+                                                        "example": "Alta"
+                                                    },
+                                                    "estado": {
+                                                        "type": "string",
+                                                        "example": "En progreso"
+                                                    },
+                                                    "fecha_limite": {
+                                                        "type": "string",
+                                                        "example": "2023-12-27"
+                                                    },
+                                                    "fecha_alerta": {
+                                                        "type": "string",
+                                                        "example": "2023-12-25"
+                                                    },
+                                                    "fecha_finalizada": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "code_user": {
+                                                        "type": "string",
+                                                        "example": "Temis-1"
+                                                    },
+                                                    "code_company": {
+                                                        "type": "string",
+                                                        "example": "desarrollo"
+                                                    },
+                                                    "metadata": {
+                                                        "type": "null"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2023-12-21T15:50:06.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2023-12-21T15:50:06.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
                                         }
                                     },
                                     "type": "object"
