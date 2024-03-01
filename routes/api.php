@@ -140,6 +140,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         //             Route::post('deleteSuprema', [SupremaController::class, 'deleteExpediente'])->name('suprema.delete');
 
         Route::get('/corte-suprema/seguimientos-corte-suprema', [SupremaController::class, 'viewAcciones']);
+        Route::get('/corte-suprema/task', [SupremaController::class, 'viewTaskProceso']);
         //             Route::post('add-accion-suprema', [SupremaController::class, 'addFollowUp']);
         //             Route::post('update-accion-suprema', [SupremaController::class, 'updateFollowUp']);
         //             Route::post('get-data-accion-suprema', [SupremaController::class, 'datosAccion']);
@@ -188,6 +189,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         //             Route::post('deleteIndecopi', [IndecopiController::class, 'deleteExpediente'])->name('indecopi.delete');
 
         Route::get('/indecopi/acciones-realizadas', [IndecopiController::class, 'viewAcciones']);
+        Route::get('/indecopi/task', [IndecopiController::class, 'viewTaskProceso']);
         //             Route::post('add-accion-indecopi', [IndecopiController::class, 'addFollowUp']);
         //             Route::post('update-accion-indecopi', [IndecopiController::class, 'updateFollowUp']);
         //             Route::post('get-data-accion-indecopi', [IndecopiController::class, 'datosAccion']);
@@ -245,6 +247,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         // ? Movimientos
         Route::get('/sinoe/seguimientos-sinoe', [ExpedienteSinoeController::class, 'viewSeguimiento']);
         Route::get('/sinoe/seguimientos-sinoe/notify', [ExpedienteSinoeController::class, 'viewSeguimientoNotify']);
+        Route::get('/sinoe/task', [ExpedienteSinoeController::class, 'viewTaskProceso']);
         //             Route::post('add-seguimiento-sinoe', [ExpedienteSinoeController::class, 'addFollowUp']);
         //             Route::post('update-seguimiento-sinoe', [ExpedienteSinoeController::class, 'updateFollowUp']);
         //             Route::post('delete-seguimiento-sinoe', [ExpedienteSinoeController::class, 'deleteFollowUp']);
