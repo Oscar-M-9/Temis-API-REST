@@ -10,7 +10,7 @@ class ApplicationVersionController extends Controller
     //
     /**
      * @OA\Get(
-     *     path="/aplication-version/{platform}",
+     *     path="api/aplication-version/{platform}",
      *     tags={"Aplicación"},
      *     summary="Verificar versión de la aplicación",
      *     description="Verifica si la versión de la aplicación es compatible con la plataforma especificada.",
