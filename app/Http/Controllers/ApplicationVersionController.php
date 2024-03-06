@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\models\ApplicationVersion;
+use App\Models\ApplicationVersion;
 
 class ApplicationVersionController extends Controller
 {
