@@ -14,6 +14,110 @@
         }
     ],
     "paths": {
+        "/aplication-version/{platform}": {
+            "get": {
+                "tags": [
+                    "Aplicación"
+                ],
+                "summary": "Verificar versión de la aplicación",
+                "description": "Verifica si la versión de la aplicación es compatible con la plataforma especificada.",
+                "operationId": "checkAppVersion",
+                "parameters": [
+                    {
+                        "name": "platform",
+                        "in": "path",
+                        "description": "Plataforma de la aplicación (android/ios)",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "android",
+                                "ios"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Versión compatible",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Plataforma compatible"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "platform": {
+                                                    "type": "string",
+                                                    "example": "android"
+                                                },
+                                                "version": {
+                                                    "type": "string",
+                                                    "example": "1.0.0"
+                                                },
+                                                "metadata": {
+                                                    "type": "string",
+                                                    "example": "null"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "example": "2024-03-06T23:25:10.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "example": "2024-03-06T23:25:10.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "platform": {
+                                            "type": "string",
+                                            "example": "android"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Plataforma no compatible",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Plataforma no compatible"
+                                        },
+                                        "platform": {
+                                            "type": "string",
+                                            "example": "macos"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/auth/login": {
             "post": {
                 "tags": [

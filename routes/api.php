@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AlertasController;
+use App\Http\Controllers\ApplicationVersionController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -40,6 +41,7 @@ Route::post('/auth/login', [LoginController::class, 'login']);
 // Route::post('reset-password', [App\Http\Controllers\Auth\ResetPasswordController::class, 'reset'])->name('password.update');
 
 
+Route::get('/application-version/{platform}', [ApplicationVersionController::class, 'index']);
 
 
 Route::middleware(['auth:sanctum'])->group(function () {
